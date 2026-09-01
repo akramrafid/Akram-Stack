@@ -1,9 +1,9 @@
 # Akram's Production System
 
 Akram's personal production system. Clone this into any new project, feed it
-a product requirement, and it runs the same disciplined pipeline every time —
+a product requirement, and it runs the same disciplined pipeline every time
 architecture, backend, frontend, UI/UX, AI/ML, DevOps, QA, security, code
-review — regardless of what the project actually is.
+review regardless of what the project actually is.
 
 ## The idea in one paragraph
 
