@@ -1,4 +1,4 @@
-# akstack
+# Akram's Production System
 
 Akram's personal production system. Clone this into any new project, feed it
 a product requirement, and it runs the same disciplined pipeline every time —
