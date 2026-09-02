@@ -1,37 +1,37 @@
 # Phase 6 — DevOps & Launch
 
-**Objective:** The gated system, actually running in production, with a
-tested rollback path and real observability. This is where the project
-stops being a repo and starts being a live system.
+**Objective:** Transition the gated, production-verified codebase into a live, highly available, observable production environment with automated CI/CD pipelines, verified disaster recovery backups, and tested rollback procedures.
 
-## Active agents
+## Active Agents
 
-| Agent | Role in this phase |
-|---|---|
-| `senior-devops-engineer` | CI/CD, deployment, monitoring, backups |
-| `senior-mlops-engineer` | Model deployment + monitoring (AI/ML or Hybrid track only) |
+| Agent | Role in this Phase | Tier | Mode |
+|---|---|---|---|
+| `senior-devops-engineer` | CI/CD pipelines, Docker containerization, IaC deployment, backups | Standard | Implement |
+| `senior-sre-observability-engineer` | Telemetry instrumentation, Prometheus dashboards, alerts, SLOs | ★ Senior | Implement |
+| `senior-technical-writer` | Production runbooks, environment variable specs, disaster recovery guides | Standard | Implement |
+| `senior-mlops-engineer` | Production model serving, drift monitoring (AI/ML & Hybrid tracks) | Standard | Implement |
 
 ## Inputs
-
-The fully gated system from Phase 5, `senior-cloud-architect`'s
-infrastructure topology from Phase 2.
+- Fully gated release candidate from Phase 5 (`git tag phase-5-complete`).
+- Infrastructure topology from `senior-cloud-architect`.
+- Telemetry standards from `senior-sre-observability-engineer`.
 
 ## Outputs
+- Automated CI/CD pipeline (`.github/workflows/deploy.yml`).
+- Hardened multi-stage container Dockerfiles with non-root runtime users.
+- Live staging and production environments.
+- Active Prometheus / Grafana observability and alerting rules.
+- Disaster recovery backup verification and documented rollback commands in `docs/runbooks/`.
+- Final `CHANGELOG.md` update.
 
-A deployed environment, CI/CD pipeline, monitoring/alerting, a tested
-rollback procedure, backup strategy — see `senior-devops-engineer.md`'s
-standard of work for what "done" means here.
+## Exit Criteria
+- Production environment is live and responding with HTTP 200 on `/health/live` and `/health/ready`.
+- Automated rollback procedure has been executed and verified in staging.
+- Automated daily database backup snapshot is configured and verified.
+- `PROGRESS.md` contains the final phase summary entry.
+- `git tag phase-6-complete` (or `v1.0.0`).
 
-## Exit
-
-The system is live. Rollback has been tested, not just documented.
-`PROGRESS.md` has the final phase summary. `git tag phase-6-complete`
-(or your project's final phase number).
-
-## After this phase
-
-The project is live. Ongoing work — new features, fixes, requirement
-changes — goes through the same loop: new tasks in `ToDos.md`, same gate
-discipline for anything that reaches production again. Use
-`PROMPT_LIBRARY.md` §6.3 for handling a requirement change on a live
-system.
+## Post-Launch Operations
+All ongoing changes follow the same disciplined lifecycle:
+- Cross-cutting requirement changes: `PROMPT_LIBRARY.md` §6.3.
+- All new features pass Phase 5 gating before shipping to production.

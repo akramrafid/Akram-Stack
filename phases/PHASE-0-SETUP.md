@@ -1,30 +1,28 @@
 # Phase 0 — Setup
 
-**Objective:** Every dependency installed, akstack templates in place,
-nothing project-specific written yet.
+**Objective:** Ensure all development tools, linters, external skills, and akstack templates are verified in place before project-specific requirements are written.
 
 ## Checklist
 
-- [ ] Global coding-discipline rules present: `~/.gemini/GEMINI.md`
-- [ ] `ui-ux-pro-max` installed globally
-- [ ] `design-system-skill` available (if this project has existing brand
-      assets to conform to)
-- [ ] Impeccable installed
-- [ ] gstack installed (optional — only if you want `/office-hours`-style
-      idea interrogation or parallel multi-worker dispatch)
-- [ ] `templates/plan.template.md` → `plan.md` copied into project root
-- [ ] `templates/ToDos.template.md` → `ToDos.md` copied
-- [ ] `templates/PROGRESS.template.md` → `PROGRESS.md` copied
-- [ ] `agents/` copied into project root (all 30 role briefs + `TEAM.md`)
+- [ ] Global coding discipline rules verified: `~/.gemini/GEMINI.md`
+- [ ] Python 3.10+ runtime available for orchestrator CLI (`python --version`)
+- [ ] Node.js 18+ runtime available (`node --version`)
+- [ ] `ui-ux-pro-max` installed globally (`npm i -g ui-ux-pro-max-cli` & `uipro init`)
+- [ ] `design-system-skill` available (for projects with pre-existing brand assets)
+- [ ] `Impeccable` installed (`npx impeccable install --providers=antigravity --scope=global`)
+- [ ] `akstack` CLI verified: run `python -m orchestrator.cli lint`
+- [ ] Project initialized:
+  ```bash
+  python -m orchestrator.cli init "My Project" --track Product/Web
+  ```
+- [ ] `agents/` present in root (all 35 role briefs + `TEAM.md`)
 
-See `integrations/EXTERNAL-TOOLS.md` for exact install commands.
+See `integrations/EXTERNAL-TOOLS.md` for exact tool install and verification commands.
 
-## Exit
+## Exit Criteria
 
-`plan.md`, `ToDos.md`, `PROGRESS.md` exist as empty templates. `agents/` is
-present. No product-specific content written yet — that starts in Phase 1
-via the Bootstrap prompt (`PROMPT_LIBRARY.md` §1).
+`plan.md`, `ToDos.md`, `PROGRESS.md` exist. `agents/` directory is present and `python -m orchestrator.cli lint` passes with 0 errors. No product-specific feature code is written yet.
 
-## Next
+## Next Phase
 
 `phases/PHASE-1-DISCOVERY.md`

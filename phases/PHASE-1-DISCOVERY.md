@@ -1,38 +1,34 @@
 # Phase 1 — Discovery
 
-**Objective:** Turn a raw product requirement into a structured plan a
-human can actually approve before any code gets written.
+**Objective:** Transform raw product requirements into a structured, ambiguity-free plan approved by a human stakeholder before any architecture or code is authored.
 
-## Active agents
+## Active Agents
 
-| Agent | Role in this phase |
-|---|---|
-| `requirement-analyzer` | Capability map, technical constraints, SEO scope |
-| `senior-product-manager` | PRD, prioritized user stories, non-goals |
-| `ux-researcher` | Personas, journeys, task flows |
-| `design-researcher` | Competitor interaction-pattern analysis |
-| `pinterest-researcher` | Visual moodboard direction (feeds Phase 3) |
+| Agent | Role in this Phase | Tier | Mode |
+|---|---|---|---|
+| `requirement-analyzer` | Capability breakdown, constraints, SEO scope, track selection | Standard | Implement |
+| `senior-product-manager` | PRD, prioritized user stories, acceptance criteria, non-goals | Standard | Implement |
+| `ux-researcher` | Personas, user journeys, task flow mapping | Standard | Implement |
+| `design-researcher` | Competitor interaction patterns and mental models | Standard | Implement |
+| `pinterest-researcher` | Visual moodboard direction & aesthetic benchmarking | Standard | Implement |
 
-Run in roughly this order — requirement-analyzer first (it's everyone
-else's input), then the rest can run in parallel since their outputs don't
-depend on each other.
+Run sequentially: `requirement-analyzer` runs first to establish the capability map. The remaining discovery agents can run in parallel since their investigative outputs do not collide.
 
 ## Inputs
-
-The product requirement, in plain language, from the person.
+- Raw product requirement in plain language from the user.
+- Relevant domain context, target audience, and business objectives.
 
 ## Outputs
+- `plan.md` §0 (Track confirmed: Product/Web, AI/ML, or Hybrid).
+- `plan.md` §1-2 (What & Why, Users & Roles) filled in detail.
+- `plan.md` §8 (Non-Goals) populated to prevent scope creep.
+- `plan.md` §9 (Open Questions & Assumptions) logged explicitly.
+- Discovery documentation in `docs/discovery/` (personas, journey maps, competitor benchmark).
 
-`plan.md` §1-2 (What & Why, Users & Roles) filled in. `plan.md` §7
-(Non-Goals) and the start of §8 (Open Questions) populated. Persona/journey
-docs and competitor analysis available for Phase 2-3 to reference.
+## Exit Criteria
+- Human stakeholder has read and approved `plan.md` §1-2 and §8-9.
+- Zero unresolved, hidden ambiguities in the requirement.
+- Phase 2 tasks generated in `ToDos.md`.
 
-## Exit
-
-A human has read and approved `plan.md` §1-2, §7-8. Every genuine ambiguity
-in the requirement is either resolved or explicitly logged as an open
-question — not silently assumed.
-
-## Next
-
+## Next Phase
 `phases/PHASE-2-ARCHITECTURE.md`

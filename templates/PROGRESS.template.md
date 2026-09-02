@@ -4,45 +4,68 @@
 > FIRST — they record what the environment actually is, which is not
 > always what ToDos.md assumed when it was written.
 
-## Entry format
+## Task Completion Entry Format
 
-```
-### {{date}} — <TASK-ID>: <title>
-**Changed:** <what was actually built/modified>
-**Verified:** <exact command run and its result>
-**Notes for next session:** <anything that saves the next session time>
-```
-
-## HANDOFF entry (human-required task)
-
-```
-### {{date}} — HANDOFF: <TASK-ID>
-**Blocked on:** <exactly what a human must do>
-**Why the agent can't:** <credential / physical action / irreversible
-  business decision>
-**Rest of phase:** <continued around it / n/a>
+```markdown
+### {{YYYY-MM-DD HH:MM}} — <TASK-ID>: <title>
+**Owner:** <agent-name>
+**Changed:** <exact files modified>
+**Verified:** <exact command run and its exit code 0 confirmation>
+**Telemetry/Metrics:** <latency, bundle size, or test coverage impact if measured>
+**Notes for next session:** <any context that saves the next session time>
+**Status:** COMPLETED
 ```
 
-## QUESTION entry (genuine ambiguity)
+## HANDOFF Entry (Human Intervention Required)
 
-```
-### {{date}} — QUESTION: <TASK-ID>
-**The ambiguity:** <what plan.md/ToDos.md didn't specify>
-**Why it's not safe to guess:** <which Hard Rule or irreversible
-  consequence is at stake>
-**Options considered:** <if any>
+```markdown
+### {{YYYY-MM-DD HH:MM}} — HANDOFF: <TASK-ID>
+**Owner:** <agent-name>
+**Blocked on:** <exact physical action, credential, or business decision required>
+**Why the agent cannot proceed:** <credential / third-party dashboard approval / irreversible decision>
+**STOP Signal:** Created `STOP` file in repo root.
+**Work continued around it:** <none / details on non-dependent tasks executed>
 ```
 
-## Phase summary entry (written at each G6 Sign-off)
+## QUESTION Entry (Domain Ambiguity Escalation)
 
+```markdown
+### {{YYYY-MM-DD HH:MM}} — QUESTION: <TASK-ID>
+**Owner:** <agent-name>
+**The Ambiguity:** <what plan.md or ToDos.md left underspecified>
+**Risk/Hard Rule at Stake:** <which domain rule or financial/data invariant is threatened>
+**Options Considered:**
+  1. Option A: <tradeoffs>
+  2. Option B: <tradeoffs>
+**Recommended Course:** <recommended option pending human sign-off>
 ```
-### {{date}} — PHASE <N> COMPLETE
-**Built:** <summary>
-**Verified:** <full regression result>
-**Known gaps:** <anything deferred, with reason>
-**Phase <N+1> needs to know:** <handoff context>
+
+## Gate Completion Entry (Gates G0-ML through G5)
+
+```markdown
+### {{YYYY-MM-DD HH:MM}} — GATE CLEARED: <GATE-ID>
+**Reviewer:** <agent-name>
+**Scope Reviewed:** <files or modules reviewed>
+**Automated Check Result:** <test suite / linter / security scan / axe-core output summary>
+**Findings Summary:**
+  - Critical: 0 open
+  - High: 0 open
+  - Medium/Low: <count filed or deferred>
+**Status:** PASSED
+```
+
+## Phase Sign-Off Entry (Written at G6 Sign-off)
+
+```markdown
+### {{YYYY-MM-DD HH:MM}} — PHASE <N> SIGN-OFF COMPLETE
+**Coordinator:** akstack
+**Built:** <concise summary of shipped capabilities>
+**Verification Summary:** <full regression test, lint, and build output summary>
+**Known Gaps / Deferred:** <anything deferred to future phases with justification>
+**Git Tag:** `phase-<N>-complete`
+**Handoff to Phase <N+1>:** <essential context for the next phase's team>
 ```
 
 ---
 
-<!-- Entries begin below. -->
+<!-- Entries begin below this line. Append only. -->

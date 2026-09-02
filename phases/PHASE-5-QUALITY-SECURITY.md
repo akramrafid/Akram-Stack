@@ -1,43 +1,39 @@
-# Phase 5 — Quality & Security
+# Phase 5 — Quality & Security Gating
 
-**Objective:** Six gates, run in order, before anything from this phase is
-considered shippable. Every review-only gate files findings as tasks — it
-never fixes what it finds.
+**Objective:** Execute the strict quality, security, accessibility, and performance gate sequence. Every review-only gate logs actionable findings as new `-F` tasks; reviewers NEVER grade or fix their own findings.
 
-## Gate sequence
+## Gate Sequence
 
-| Gate | Agent | Reviews for | Mode |
+| Gate | Agent | Focus / Review Bar | Mode |
 |---|---|---|---|
-| G0-ML *(AI/ML track only, runs before G1)* | `senior-mlops-engineer` | Model lineage, versioned data, eval threshold cleared | Implement |
-| G1 Test | `senior-qa-architect` | Suite genuinely green, Hard Rules tested first | Implement (tests only) |
-| G2 Code Review | `code-reviewer` | Industry-standard quality, maintainability, edge cases, error handling, Hard Rule/ownership compliance | Review-only |
-| G3 Security | `senior-security-engineer` | OWASP baseline + Hard Rules | Review-only |
-| G4 UX/Visual | `visual-qa` + `brand-guardian` | Pixel/breakpoint fidelity, brand + Impeccable critique | Review-only |
-| G5 Performance | `senior-performance-engineer` | Core Web Vitals / API latency budget | Review-only |
-| G6 Sign-off | coordinator | All above `- [x]`, exit criteria demonstrated | — |
+| **G0-ML** *(AI/ML only)* | `senior-mlops-engineer` | Model lineage, reproducible training, metric threshold cleared | Implement |
+| **G1 Test** | `senior-qa-architect` | Automated test suite 100% green, Hard Rules tested first | Implement (tests only) |
+| **G2 Code Review** | `code-reviewer` | Clean architecture, error handling, maintainability, ownership | Review-only |
+| **G3 Security** | `senior-security-engineer` | OWASP Top 10 + ASVS, auth boundaries, Hard Rules verification | Review-only |
+| **G4 UX/Visual** | `visual-qa` + `brand-guardian` | Breakpoint fidelity, design system compliance, Impeccable slop check | Review-only |
+| **G4-A11Y Accessibility** | `senior-accessibility-engineer` | WCAG 2.2 AA compliance, axe-core audit, keyboard navigation | Review-only |
+| **G5 Performance** | `senior-performance-engineer` | Core Web Vitals, API latency, Lighthouse CI thresholds | Review-only |
+| **G6 Sign-Off** | coordinator / CLI | All prior gates `- [x]`, regression suite green, tag release | Sign-off |
 
-Exact prompts for each gate: `PROMPT_LIBRARY.md` §4.
+Exact prompts and checklists: `PROMPT_LIBRARY.md` §4.
 
-## How findings flow
+## How Findings Flow
+- Every Critical and High finding from G2 through G5 becomes a new `-F` task (e.g. `P5-F01`) filed directly below the evaluating gate in `ToDos.md`.
+- Tasks are assigned to the responsible implementation engineer.
+- The gate remains unchecked until all filed finding tasks are implemented, verified, and re-reviewed.
 
-Every Critical/High finding from G2-G5 becomes a new `-F` task filed
-directly below that gate in `ToDos.md`, owned by whichever role should fix
-it. The gate stays unchecked until none remain open. This is what keeps a
-review honest — the reviewer never grades its own fix.
+## CLI Gate Execution
 
-## Inputs
+```bash
+# Validate and clear a gate once preconditions are met
+python -m orchestrator.cli gate P5-G1
+```
 
-Everything built in Phase 4.
+## Exit Criteria
+- All gates G0-ML through G6 are checked `- [x]`.
+- Zero unresolved Critical or High security, test, or accessibility defects.
+- Full regression suite exits with code 0.
+- `git tag phase-5-complete`.
 
-## Outputs
-
-A written report per gate, fix tasks for anything Critical/High, and (once
-clean) `git tag phase-<N>-complete`.
-
-## Exit
-
-All six gates `- [x]`. `PROGRESS.md` has a phase summary entry.
-
-## Next
-
+## Next Phase
 `phases/PHASE-6-DEVOPS-LAUNCH.md`

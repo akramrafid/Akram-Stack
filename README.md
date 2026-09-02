@@ -1,83 +1,80 @@
-# Akram's Production System
+# Akram's Production System (akstack)
 
-Akram's personal production system. Clone this into any new project, feed it
-a product requirement, and it runs the same disciplined pipeline every time
-architecture, backend, frontend, UI/UX, AI/ML, DevOps, QA, security, code
-review regardless of what the project actually is.
+Akram's personal production multi-agent system. Clone this into any new project, feed it a product requirement, and it runs a disciplined, autonomous engineering pipeline: architecture, database modeling, backend, integrations, frontend, mobile, UI/UX, AI/ML, SQA, accessibility, SRE, and DevOps.
 
-## The idea in one paragraph
+## The Core Philosophy
 
-Most AI-assisted builds fall apart because the plan lives in a chat that
-scrolls away. akstack puts the plan on disk instead: `plan.md` (what/why/
-hard rules), `ToDos.md` (the task ledger), `PROGRESS.md` (the journal), and
-`agents/` (30 role briefs, each with a narrow job and a clear handoff). Every
-work session — whether it's the same day or three weeks later — re-reads
-these files from scratch. That's what makes a multi-week build survive
-context resets, model switches, and long gaps between sessions.
+Most AI-assisted builds fall apart because context scrolls away in an LLM conversation. `akstack` persists state deterministically on disk:
+- `plan.md` (what/why/domain hard rules/SLO budgets),
+- `ToDos.md` (the machine-parsable task ledger),
+- `PROGRESS.md` (the append-only journal),
+- `agents/` (35 role briefs, each with narrow responsibilities, explicit boundaries, and clean handoffs),
+- `orchestrator/` & `bin/akstack` (zero-dependency programmatic CLI for topological sorting, conflict-free parallel wave scheduling, task transitions, and automated gating).
 
-## What's original here vs. what's a dependency
+Every work session — whether minutes later or three weeks later — orients from disk. This makes multi-week autonomous builds immune to context resets, model switches, and long operational gaps.
 
-**Original to akstack:** the file-based task ledger, the phase structure,
-all 30 agent role briefs, the gate sequence, the prompt library.
+---
 
-**Dependencies — installed separately, referenced not vendored** (see
-`integrations/EXTERNAL-TOOLS.md` for install commands):
-- **Karpathy coding-discipline rules** — global, already active via
-  `~/.gemini/GEMINI.md`
-- **ui-ux-pro-max** / **design-system-skill** — design system generation
-- **Impeccable** — anti-AI-slop design/code detector
-- **gstack** — optional, for `/office-hours`-style idea interrogation before
-  Phase 1, and for parallel multi-worker dispatch if you want it
+## Three Tracks, One Spine
 
-akstack doesn't reinvent any of these — it calls them at the right moment
-and stays out of their way otherwise.
+Every project runs the same 7 phases (0 through 6). The active agents in Phase 4 (Build) depend on the project track declared in `plan.md` §0:
 
-## Two tracks, one spine
-
-Every project runs the same six phases. Which **agents** are active in
-Phase 4 (Build) depends on the track:
-
-| Track | Used for | Phase 4 agents |
+| Track | Target Applications | Active Phase 4 Implementation Agents |
 |---|---|---|
-| **Product/Web** | CRUD apps, dashboards, marketplaces, SaaS | senior-backend-engineer, senior-frontend-engineer |
-| **AI/ML** | Model development, research, ML-driven features | senior-ai-research-engineer, senior-machine-learning-engineer, senior-deep-learning-engineer, senior-llm-engineer, senior-generative-ai-engineer, senior-nlp-engineer, senior-computer-vision-engineer, senior-data-engineer |
-| **Hybrid** | A product with an ML feature inside it | both, on their own files, coordinated via `agents/TEAM.md` file ownership |
+| **Product/Web** | SaaS, CRUD apps, web portals, dashboards, mobile apps | `senior-backend-engineer`, `senior-frontend-engineer`, `senior-integration-engineer`, `senior-mobile-engineer` |
+| **AI/ML** | Novel models, research pipelines, classical ML, LLM systems, vision/NLP | `senior-ai-research-engineer` (★), `senior-machine-learning-engineer`, `senior-deep-learning-engineer`, `senior-llm-engineer`, `senior-generative-ai-engineer`, `senior-nlp-engineer`, `senior-computer-vision-engineer`, `senior-data-engineer` |
+| **Hybrid** | Full-stack products with embedded AI/LLM features | Both groups, operating on isolated files via `agents/TEAM.md` file ownership boundaries |
 
-Track is declared in `plan.md` §0 at bootstrap and decides which
-`phases/PHASE-4-BUILD.md` sub-section applies.
+---
 
-## Quick start
+## Programmatic CLI Orchestrator (`bin/akstack`)
+
+Akram-Stack includes a zero-dependency Python 3 CLI engine for automated task scheduling and gating:
 
 ```bash
-git clone <this-repo> my-new-project
-cd my-new-project
-rm -rf .git && git init          # detach from akstack's own history
+# Check status, phase progress, and active blockers
+python -m orchestrator.cli status
+
+# Compute next runnable task in topological order
+python -m orchestrator.cli next
+
+# Schedule conflict-free parallel waves (disjoint file boundaries)
+python -m orchestrator.cli next --parallel
+
+# Task lifecycle management
+python -m orchestrator.cli start <task-id>
+python -m orchestrator.cli complete <task-id>
+python -m orchestrator.cli fail <task-id> --error "<diagnosis>"
+
+# Validate quality and security gates
+python -m orchestrator.cli gate P5-G1
+
+# Validate system integrity, agent owners, and cycle-free task graph
+python -m orchestrator.cli lint
+
+# Export dependency graph in Mermaid syntax
+python -m orchestrator.cli graph --mermaid
 ```
 
-Then open it in Antigravity (or Claude Code) and say:
+---
 
-> "Bootstrap this project using akstack. Here's the requirement: <your
-> product requirement, in plain language>."
+## Phase Map
 
-Full walkthrough in `GETTING-STARTED.md`. Every prompt this system runs on
-lives in `PROMPT_LIBRARY.md` — nothing is implicit.
+| Phase | Specification | Produces | Key Roles |
+|---|---|---|---|
+| **0 — Setup** | `phases/PHASE-0-SETUP.md` | Dependencies installed, templates initialized | Coordinator, CLI |
+| **1 — Discovery** | `phases/PHASE-1-DISCOVERY.md` | `plan.md` §1-2, capabilities, personas, non-goals | `requirement-analyzer`, `senior-product-manager`, `ux-researcher` |
+| **2 — Architecture** | `phases/PHASE-2-ARCHITECTURE.md` | `plan.md` §3-6 (Hard Rules, Schema, C4 Diagrams, OpenAPI) | `senior-system-architect` (★), `senior-database-architect` (★), `senior-security-engineer` (★), `senior-sre-observability-engineer` (★), `senior-technical-writer` |
+| **3 — Design** | `phases/PHASE-3-DESIGN.md` | `design-system/MASTER.md`, high-fidelity screen specs | `senior-product-designer`, `ui-designer`, `senior-accessibility-engineer`, `brand-guardian` |
+| **4 — Build** | `phases/PHASE-4-BUILD.md` | Complete product code, task-by-task | Track implementation roles |
+| **5 — Quality & Security** | `phases/PHASE-5-QUALITY-SECURITY.md` | 7 quality/security gates cleared | `senior-qa-architect`, `code-reviewer`, `senior-security-engineer`, `visual-qa`, `senior-accessibility-engineer`, `senior-performance-engineer` |
+| **6 — DevOps & Launch** | `phases/PHASE-6-DEVOPS-LAUNCH.md` | CI/CD, hardened Docker, live staging/prod, SLOs, runbooks | `senior-devops-engineer`, `senior-sre-observability-engineer`, `senior-mlops-engineer`, `senior-technical-writer` |
 
-## Phase map
+---
 
-| Phase | Doc | Produces |
-|---|---|---|
-| 0 — Setup | `phases/PHASE-0-SETUP.md` | Dependencies installed, akstack templates in place |
-| 1 — Discovery | `phases/PHASE-1-DISCOVERY.md` | `plan.md` §1-3, capability map, personas |
-| 2 — Architecture | `phases/PHASE-2-ARCHITECTURE.md` | `plan.md` §4-6, schema, Phase 4 task list |
-| 3 — Design | `phases/PHASE-3-DESIGN.md` | `design-system/MASTER.md`, brand sign-off |
-| 4 — Build | `phases/PHASE-4-BUILD.md` | The actual product/model, task by task |
-| 5 — Quality & Security | `phases/PHASE-5-QUALITY-SECURITY.md` | 6 gates cleared |
-| 6 — DevOps & Launch | `phases/PHASE-6-DEVOPS-LAUNCH.md` | Deployed, monitored, signed off |
+## Complete Agent Roster (35 Roles)
 
-## Full agent roster (30)
-
-See `agents/TEAM.md` for the complete table with phase, track, model tier,
-and file-ownership mapping. Full list of files:
+See `agents/TEAM.md` for full tiers, ownership boundaries, and operational rules. Full list of agent briefs:
 
 ```
 agents/
@@ -89,15 +86,20 @@ agents/
 ├── pinterest-researcher.md              ┘
 ├── senior-system-architect.md           ┐
 ├── senior-system-designer.md            │
-├── senior-cloud-architect.md            │ Phase 2 — Architecture
+├── senior-cloud-architect.md            │ Phase 2 — Architecture & System Design
 ├── senior-database-architect.md         │
-├── senior-security-engineer.md          ┘
+├── senior-security-engineer.md          │
+├── senior-sre-observability-engineer.md │
+├── senior-technical-writer.md           ┘
 ├── senior-product-designer.md           ┐
-├── ui-designer.md                       │ Phase 3 — Design
+├── ui-designer.md                       │ Phase 3 — Design & Accessibility
+├── senior-accessibility-engineer.md     │
 ├── brand-guardian.md                    │
 ├── senior-ai-engineer.md                ┘ (AI strategy, spans P2-P4)
 ├── senior-backend-engineer.md           ┐
-├── senior-frontend-engineer.md          ┘ Phase 4 — Build (Product/Web)
+├── senior-frontend-engineer.md          │ Phase 4 — Build (Product/Web)
+├── senior-integration-engineer.md       │
+├── senior-mobile-engineer.md            ┘
 ├── senior-ai-research-engineer.md       ┐
 ├── senior-machine-learning-engineer.md  │
 ├── senior-deep-learning-engineer.md     │
@@ -114,20 +116,33 @@ agents/
 └── senior-devops-engineer.md              Phase 6 — DevOps & Launch
 ```
 
-## Directory layout
+---
+
+## Directory Layout
 
 ```
 akstack/
-├── README.md                    — this file
-├── GETTING-STARTED.md           — step-by-step first use
-├── GLOBAL-RULES.md              — the discipline every agent inherits
-├── PROMPT_LIBRARY.md            — every prompt, verbatim, copy-paste ready
+├── README.md                    — system overview
+├── GETTING-STARTED.md           — step-by-step onboarding
+├── GLOBAL-RULES.md              — global coding discipline & hard rule invariants
+├── PROMPT_LIBRARY.md            — verbatim copy-paste prompts & CLI commands
+├── bin/
+│   ├── akstack                  — POSIX shell CLI launcher
+│   └── akstack.bat              — Windows batch CLI launcher
+├── orchestrator/                — Python 3 programmatic orchestration engine
+│   ├── cli.py                   — terminal commands & formatted output
+│   ├── engine.py                — task execution, verification, git commits
+│   ├── graph.py                 — DAG resolution, cycle check, parallel waves
+│   ├── models.py                — data models (Task, Gate, Plan)
+│   └── parser.py                — markdown parser & state updater
+├── .agents/skills/akstack/       — native Antigravity skill integration
 ├── templates/
 │   ├── plan.template.md
 │   ├── ToDos.template.md
 │   └── PROGRESS.template.md
-├── agents/                      — 30 role briefs (see above)
-├── phases/                      — 7 phase docs, each linking back here
+├── agents/                      — 35 specialized role briefs + TEAM.md
+├── phases/                      — 7 phase specifications
+├── tests/                       — automated test suite for orchestrator
 └── integrations/
-    └── EXTERNAL-TOOLS.md        — install/update commands for dependencies
+    └── EXTERNAL-TOOLS.md        — external dependencies & tools
 ```

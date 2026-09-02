@@ -1,42 +1,40 @@
-# Phase 2 — Architecture
+# Phase 2 — Architecture & System Design
 
-**Objective:** Turn the approved plan into a concrete technical shape —
-architecture, schema, contracts, and (this phase's most important output)
-the project's Hard Rules — before any feature code is written.
+**Objective:** Establish the foundational technical shape — modular boundaries, database schema, API contracts, telemetry standards, threat models, and project Hard Rules — before any feature implementation begins.
 
-## Active agents
+## Active Agents
 
-| Agent | Role in this phase | Tier |
-|---|---|---|
-| `senior-system-architect` | Top-level architecture, rendering strategy | ★ |
-| `senior-system-designer` | API contracts, interfaces, data flow | Standard |
-| `senior-cloud-architect` | Infra topology, cost | Standard |
-| `senior-database-architect` | Schema, migrations, indexing | ★ |
-| `senior-security-engineer` | Auth design, threat model | ★ |
-| `senior-ai-engineer` | AI/ML system architecture (AI/ML or Hybrid track only) | ★ |
+| Agent | Role in this Phase | Tier | Mode |
+|---|---|---|---|
+| `senior-system-architect` | High-level architecture, rendering strategy, C4 diagrams | ★ Senior | Implement |
+| `senior-system-designer` | API contracts, interface specifications, data flow | Standard | Implement |
+| `senior-database-architect` | Storage modeling, schema DDL, zero-downtime migrations, indexes | ★ Senior | Implement |
+| `senior-security-engineer` | Threat model (STRIDE), authentication invariants, RBAC/ABAC | ★ Senior | Implement |
+| `senior-sre-observability-engineer` | Telemetry architecture, golden signals, health check design | ★ Senior | Implement |
+| `senior-technical-writer` | OpenAPI 3.1 specifications, architecture docs, ADR catalog | Standard | Implement |
+| `senior-cloud-architect` | Infrastructure topology, cloud services, FinOps budget | Standard | Implement |
+| `senior-ai-engineer` | AI system architecture, model orchestration (AI/ML & Hybrid) | ★ Senior | Implement |
 
-`senior-system-architect` goes first — everything else in this phase builds
-within the shape it sets. `senior-database-architect` and
-`senior-security-engineer` are ★ — never delegate their tasks to a
-faster model tier, even ones that look small.
+`senior-system-architect` establishes the overall boundaries first. `senior-database-architect`, `senior-security-engineer`, and `senior-sre-observability-engineer` are ★ Senior roles — never delegate to a lower model tier.
 
 ## Inputs
-
-`plan.md` §1-2 from Phase 1, the chosen track (`plan.md` §0).
+- Approved `plan.md` §0-2 from Phase 1.
+- Technical constraints, target scale, and domain compliance rules.
 
 ## Outputs
+- `plan.md` §3 (**Domain & Hard Rules** — the most critical artifact in the entire system).
+- `plan.md` §4-6 (Architecture, Stack, Storage Invariants, SLO Budgets) finalized.
+- C4 Context & Container diagrams in `docs/architecture/`.
+- Concrete schema definitions and initial migration scripts in `db/` or `prisma/`.
+- OpenAPI 3.1 specifications in `docs/openapi.yaml`.
+- Initial ADRs in `docs/adr/`.
+- `agents/TEAM.md` §3 (File Ownership) calibrated to the selected stack.
+- Phase 3 and Phase 4 task lists generated in `ToDos.md`.
 
-`plan.md` §3 (Hard Rules — the most important artifact of this whole
-phase), §4-6 finalized. Schema/migration files. API contract specs.
-`agents/TEAM.md` §3 File Ownership updated for the actual stack. Phase 4
-task list generated in `ToDos.md`.
+## Exit Criteria
+- Human stakeholder has reviewed and explicitly approved `plan.md` §3 (Hard Rules).
+- Database migrations execute cleanly forward and backward in test environment.
+- All Phase 4 implementation tasks in `ToDos.md` have an explicit Owner, Files list, and Verify command.
 
-## Exit
-
-A human has reviewed `plan.md` §3 specifically — this is where a rushed
-review costs the most later. Schema exists and migrates cleanly. Every
-Phase 4 task has a clear Owner, Files:, and Verify:.
-
-## Next
-
+## Next Phase
 `phases/PHASE-3-DESIGN.md`

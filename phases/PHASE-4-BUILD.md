@@ -1,54 +1,59 @@
-# Phase 4 — Build
+# Phase 4 — Build Loop
 
-**Objective:** Implement the tasks Phase 2 generated, one at a time,
-through the build loop — the actual product/model gets built here.
+**Objective:** Implement all tasks generated in Phase 2 in dependency order through the deterministic build loop. This is where the product, APIs, UI, mobile experiences, and AI/ML pipelines are engineered.
 
-## Active agents — by track (from `plan.md` §0)
+## Active Agents by Track
 
-**Product/Web track:**
+### Product/Web Track
+| Agent | Core Ownership | Tier |
+|---|---|---|
+| `senior-backend-engineer` | API routes, domain services, business logic (non-★) | Standard |
+| `senior-frontend-engineer` | Components, pages, client state, Core Web Vitals | Standard |
+| `senior-integration-engineer` | Payment gateways, webhooks, third-party APIs, idempotency | Standard |
+| `senior-mobile-engineer` | Cross-platform mobile apps (React Native/Expo/Flutter/PWA) | Standard |
 
-| Agent | Owns |
-|---|---|
-| `senior-backend-engineer` | API routes, services, business logic (non-★) |
-| `senior-frontend-engineer` | Components, pages, client state |
+### AI/ML Track
+| Agent | Core Ownership | Tier |
+|---|---|---|
+| `senior-ai-research-engineer` | Novel algorithmic and mathematical validation | ★ Senior |
+| `senior-machine-learning-engineer` | Tabular/classical ML models, feature engineering | Standard |
+| `senior-deep-learning-engineer` | Deep neural network architectures and training runs | Standard |
+| `senior-llm-engineer` | LLM systems, structured outputs, prompt templates, RAG | Standard |
+| `senior-generative-ai-engineer` | Multimodal and diffusion generation pipelines | Standard |
+| `senior-nlp-engineer` | Text processing, embeddings, semantic tokenization | Standard |
+| `senior-computer-vision-engineer` | Image/video analysis, detection, segmentation | Standard |
+| `senior-data-engineer` | Data ingestion pipelines, feature stores, data cleaning | Standard |
 
-**AI/ML track:**
+### Hybrid Track
+Both tables apply. Agents operate on strictly isolated files defined in `agents/TEAM.md` §3 File Ownership.
 
-| Agent | Owns |
-|---|---|
-| `senior-ai-research-engineer` | Novel technique validation (★) |
-| `senior-machine-learning-engineer` | Classical ML, structured data |
-| `senior-deep-learning-engineer` | Neural architectures, training infra |
-| `senior-llm-engineer` | LLM systems, prompt engineering, RAG |
-| `senior-generative-ai-engineer` | Multimodal/diffusion generation |
-| `senior-nlp-engineer` | Text classification, embeddings, extraction |
-| `senior-computer-vision-engineer` | Image/video processing, detection |
-| `senior-data-engineer` | Pipelines feeding every AI/ML role above |
+## Execution via Orchestrator CLI
 
-**Hybrid track:** both tables apply, on their own files — see
-`agents/TEAM.md` §3 for the file-ownership boundary between them.
+Each task is executed through the `akstack` CLI loop:
 
-## How to run this phase
+```bash
+# 1. Determine next runnable task (verifies dependencies and topological order)
+python -m orchestrator.cli next
 
-Use `PROMPT_LIBRARY.md` §2 (single task) or §3 (whole phase). Every task
-was generated in Phase 2 with an `Owner:` field — the agent reads its own
-role brief in `agents/` before touching anything.
+# 2. Mark task as in-progress
+python -m orchestrator.cli start <task-id>
 
-## Inputs
+# 3. Implement strictly within declared Files: boundary.
+# Read agents/<owner>.md before editing code.
 
-`ToDos.md` Phase 4 task list, the schema/API contracts from Phase 2,
-`design-system/MASTER.md` from Phase 3.
+# 4. Complete task (runs Verify command, appends to PROGRESS.md, commits to git)
+python -m orchestrator.cli complete <task-id>
+```
 
-## Outputs
+For parallel wave execution (when multiple independent tasks share no overlapping files):
+```bash
+python -m orchestrator.cli next --parallel
+```
 
-The actual implemented product/model. Every task ends in a commit, per
-`ToDos.md` §0.
+## Exit Criteria
+- Every `- [ ]` task in `ToDos.md` Phase 4 is marked `- [x]`.
+- Zero `- [!]` blocked tasks remaining.
+- All code committed with standard `<TASK-ID>: <title>` messages.
 
-## Exit
-
-Every `- [ ]` task in this phase's section of `ToDos.md` is `- [x]`. No
-task is `- [!]` blocked without a recorded diagnosis in `PROGRESS.md`.
-
-## Next
-
+## Next Phase
 `phases/PHASE-5-QUALITY-SECURITY.md`

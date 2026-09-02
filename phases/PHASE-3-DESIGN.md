@@ -1,43 +1,36 @@
-# Phase 3 — Design
+# Phase 3 — Design & Accessibility System
 
-**Objective:** A persisted design system and approved high-fidelity screens
-— before Phase 4 build starts, so frontend work never has to invent visual
-decisions on the fly.
+**Objective:** Produce a persisted design system, comprehensive component design tokens, and approved screen specifications before frontend/mobile coding begins, guaranteeing UI developers never make arbitrary visual decisions.
 
-## Active agents
+## Active Agents
 
-| Agent | Role in this phase | Mode |
-|---|---|---|
-| `senior-product-designer` | Information architecture, design system curation | Implement |
-| `ui-designer` | High-fidelity screens, micro-interactions | Implement |
-| `brand-guardian` | Ongoing brand/conversion review as screens land | Review-only |
+| Agent | Role in this Phase | Tier | Mode |
+|---|---|---|---|
+| `senior-product-designer` | Information architecture, layout systems, design token curation | Standard | Implement |
+| `ui-designer` | High-fidelity screen specifications, micro-interactions, responsive states | Standard | Implement |
+| `senior-accessibility-engineer` | WCAG 2.2 AA audit, keyboard focus flows, ARIA semantics | Standard | Implement |
+| `brand-guardian` | Brand alignment, visual consistency, conversion review | Standard | Review-only |
 
-## External tools this phase calls
-
-- **New brand, no existing assets:** `ui-ux-pro-max` generates the design
-  system from the product category + `pinterest-researcher`'s direction.
-- **Existing brand assets (PDFs, Figma, screenshots):** `design-system-skill`
-  ingests them instead — don't let the reasoning engine invent a palette
-  when a real one already exists.
-- Either way, **persist the result** to `design-system/MASTER.md` before
-  Phase 4 starts. See `PROMPT_LIBRARY.md` §1 for the exact persist command.
+## External Tooling Integration
+- **New Brand (No Existing Assets):** Execute `ui-ux-pro-max` against the domain category and `pinterest-researcher`'s moodboard direction.
+- **Existing Brand Assets (Figma, PDFs, Screenshots):** Ingest brand guidelines via `design-system-skill`.
+- **Persistence Mandate:** Persist the generated tokens and rules to `design-system/MASTER.md` before Phase 4 begins.
 
 ## Inputs
-
-`plan.md`, personas/journeys and moodboard direction from Phase 1, the
-information architecture this phase produces.
+- Approved `plan.md` (target personas, brand tone, viewport requirements).
+- Moodboard and competitor benchmarks from Phase 1.
+- Technical API contracts and data models from Phase 2.
 
 ## Outputs
+- `design-system/MASTER.md` (color tokens, typography scales, spacing units, elevations, radii).
+- Page-level override files in `design-system/pages/*.md` if specific flows require unique layouts.
+- Component specifications with explicit loading, empty, success, and error states.
+- Accessibility focus map and contrast audit report in `docs/design/accessibility-spec.md`.
 
-`design-system/MASTER.md` (+ `design-system/pages/*.md` overrides as
-needed), high-fidelity screen specs for Phase 4's core flows.
+## Exit Criteria
+- `design-system/MASTER.md` is committed and signed off by `brand-guardian`.
+- Accessibility specs achieve WCAG 2.2 AA compliance across all proposed color pairs.
+- Core user flows are specified in high fidelity so `senior-frontend-engineer` and `senior-mobile-engineer` have zero ambiguity during Phase 4.
 
-## Exit
-
-`design-system/MASTER.md` exists and brand-guardian has signed off on it.
-Core screens are specified precisely enough for `senior-frontend-engineer`
-to build against without re-deciding visual details mid-implementation.
-
-## Next
-
+## Next Phase
 `phases/PHASE-4-BUILD.md`

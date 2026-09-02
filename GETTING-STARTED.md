@@ -1,6 +1,6 @@
-# Getting Started
+# Getting Started with Akram-Stack (akstack)
 
-## 1. Clone it for a new project
+## 1. Clone it for a New Project
 
 ```bash
 git clone <akstack-repo-url> my-new-project
@@ -8,83 +8,123 @@ cd my-new-project
 rm -rf .git && git init -b main
 ```
 
-akstack ships with no project-specific content — `plan.md`, `ToDos.md`, and
-`PROGRESS.md` don't exist yet in your clone; only their templates do. That's
-intentional: every project's plan is written fresh at bootstrap, never
-inherited from a previous project.
+`akstack` ships clean — `plan.md`, `ToDos.md`, and `PROGRESS.md` do not exist yet in your clone; only their templates in `templates/` do. Every project's plan is authored fresh at bootstrap.
 
-## 2. (Optional but recommended) Interrogate the idea first
+---
 
-If gstack is installed, run `/office-hours` before anything else — it pushes
-back on a vague product idea before it becomes a written plan. Skip this if
-your requirement is already well-specified.
+## 2. Initialize the Project
 
-## 3. Bootstrap
+You can bootstrap using either the **Programmatic CLI** or the **Agent Bootstrap Prompt**:
 
-Open the project in Antigravity and run the **Bootstrap** prompt from
-`PROMPT_LIBRARY.md` §1, with your product requirement pasted in. It will:
-
-1. Copy `templates/plan.template.md` → `plan.md`, etc.
-2. Ask you (once) which track applies: Product/Web, AI/ML, or Hybrid.
-3. Fill in `plan.md` §1-3 from your requirement.
-4. Write `plan.md` §3 — **Hard Rules** — this is the section worth reading
-   carefully before approving. It's the domain-specific "money is never a
-   float" equivalent for whatever you're actually building.
-5. Generate `agents/TEAM.md`'s file-ownership section for your actual stack.
-6. Generate Phase 1 tasks in `ToDos.md`.
-7. **Stop and ask you to review `plan.md`** before writing any code.
-
-## 4. Review the plan
-
-Read `plan.md` in full, especially:
-- §3 Hard Rules — did it catch the real domain risks?
-- §8 Open Questions — resolve anything genuinely ambiguous before building
-
-Approve, or send corrections and have it re-run just that section.
-
-## 5. Run the phases
-
-```
-"Run Phase 1."          → discovery agents produce the capability map
-"Run Phase 2."          → architecture agents produce schema + design docs
-"Run Phase 3."          → design agents + ui-ux-pro-max produce design-system/MASTER.md
-"Run Phase 4."          → build loop, one task at a time or the whole phase
-"Run Phase 5."          → the 6 quality/security gates
-"Run Phase 6."          → DevOps + launch sign-off
-```
-
-Each phase doc in `phases/` tells the agent exactly which role briefs to
-read and which gate(s) close out the phase. You don't need to remember which
-agents apply to which phase — the phase doc does that.
-
-## 6. Day-to-day: the build loop
-
-Once you're in Phase 4, the unit of work is one task:
-
-> "Run the build loop." → picks the next `- [ ]` task in `ToDos.md`, reads
-> the right role brief, implements it, verifies it, commits, stops.
-
-Or for a whole phase unattended:
-
-> "Complete Phase 4." → runs tasks in dependency order, then the phase's
-> gates, then stops and reports.
-
-## 7. If something breaks
-
-`PROMPT_LIBRARY.md` §5 has recovery prompts for a blocked task, a stuck
-loop, and reverting a bad commit. §6 has ad-hoc prompts for status checks,
-re-planning a phase, and handling a requirement change mid-build.
-
-## Using akstack as a global skill instead (optional)
-
-If you'd rather have it available in every project without cloning fresh
-each time:
+### Option A: Using the Orchestrator CLI
 
 ```bash
-cp -r akstack ~/.agents/skills/akstack
+python -m orchestrator.cli init "My Cool Project" --track Product/Web
 ```
 
-Then reference `~/.agents/skills/akstack/templates/` from any project's
-setup step. The clone-per-project flow above is the primary intended use
-though — a git history that starts clean per project is worth more than the
-convenience of a global skill for something this central to how you build.
+Options for `--track`: `Product/Web`, `AI/ML`, or `Hybrid`.
+
+### Option B: Using the Agent Prompt
+
+Open the repo in Antigravity or Claude Code and send the **Bootstrap Prompt** from `PROMPT_LIBRARY.md` §1 with your product requirement pasted in.
+
+---
+
+## 3. Review the Plan (The Non-Negotiable Gate)
+
+Read `plan.md` in full before writing any application code, especially:
+- **§3 Domain & Hard Rules**: Did it identify the real domain risks (e.g. integer money, transactional consistency, tenant isolation, idempotency)?
+- **§6 SLOs & Budgets**: Are latency, availability, and accessibility targets clear?
+- **§9 Open Questions**: Resolve genuine ambiguities before architecture and implementation.
+
+Approve `plan.md` or instruct the agent to revise specific sections.
+
+---
+
+## 4. Execute the Phases
+
+The pipeline runs sequentially through 7 phases:
+
+```bash
+# Phase 1 — Discovery: capability map, personas, open questions
+# Phase 2 — Architecture: C4 diagrams, database schema, API contracts, threat model
+# Phase 3 — Design: design system in design-system/MASTER.md, accessibility audit
+# Phase 4 — Build: deterministic build loop
+# Phase 5 — Quality & Security: G0-ML through G6 gates
+# Phase 6 — DevOps & Launch: CI/CD, container hardening, observability, live deploy
+```
+
+---
+
+## 5. Day-to-Day: The Build Loop
+
+In Phase 4, tasks are executed one at a time or in conflict-free parallel waves:
+
+```bash
+# 1. View project status and blockers
+python -m orchestrator.cli status
+
+# 2. Select the next runnable task in dependency order
+python -m orchestrator.cli next
+
+# 3. Mark task as in-progress
+python -m orchestrator.cli start <task-id>
+
+# 4. Implement strictly within declared Files: boundary.
+
+# 5. Complete task (runs Verify command, verifies exit 0, commits)
+python -m orchestrator.cli complete <task-id>
+```
+
+For parallel multi-agent dispatch:
+```bash
+python -m orchestrator.cli next --parallel
+```
+The CLI automatically groups runnable tasks into waves whose declared file boundaries do not overlap.
+
+---
+
+## 6. Running Quality & Security Gates (Phase 5)
+
+Phase 5 enforces 7 mandatory gates in order:
+
+```bash
+# Run and clear gates once verification criteria are satisfied:
+python -m orchestrator.cli gate P5-G1         # Test Gate (automated test suite 100% green)
+python -m orchestrator.cli gate P5-G2         # Code Review Gate (clean architecture & standards)
+python -m orchestrator.cli gate P5-G3         # Security Gate (OWASP Top 10 + Hard Rules)
+python -m orchestrator.cli gate P5-G4         # Visual/UX Gate (breakpoint fidelity)
+python -m orchestrator.cli gate P5-G4-A11Y    # Accessibility Gate (WCAG 2.2 AA compliance)
+python -m orchestrator.cli gate P5-G5         # Performance Gate (Core Web Vitals budget)
+python -m orchestrator.cli gate P5-G6         # Final Sign-Off & Git Tag
+```
+
+Reviewers in G2 through G5 are **review-only** — they never edit production code; they file `-F` tasks directly below the gate until resolved.
+
+---
+
+## 7. Diagnostics & Recovery
+
+- **Check system consistency:**
+  ```bash
+  python -m orchestrator.cli lint
+  ```
+- **Inspect dependency graph:**
+  ```bash
+  python -m orchestrator.cli graph
+  python -m orchestrator.cli graph --mermaid
+  ```
+- **When a task is blocked (`- [!]`):**
+  Use `PROMPT_LIBRARY.md` §5.1 to diagnose the root cause, fix the issue, and reset the task to `- [ ]`.
+- **Reverting a bad commit:**
+  ```bash
+  git log --oneline -10
+  git reset --hard <commit-before-bad-task>
+  ```
+  Reset the task in `ToDos.md` to `- [ ]` and re-run.
+
+---
+
+## 8. Antigravity Skill Integration
+
+`akstack` includes native Antigravity skill configuration in `.agents/skills/akstack/SKILL.md`. Antigravity automatically detects this skill and can trigger `akstack` commands autonomously during pairing sessions.

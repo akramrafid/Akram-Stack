@@ -1,15 +1,20 @@
 # Prompt Library — akstack
 
-Copy these verbatim. Substitute `{{PROJECT_NAME}}`, `{{N}}` (phase number),
-and the product requirement where indicated.
+Copy these verbatim or execute with the programmatic CLI (`python -m orchestrator.cli` / `bin/akstack`).
+Substitute `{{PROJECT_NAME}}`, `{{N}}` (phase number), and the product requirement where indicated.
 
 ---
 
 ## 1. Bootstrap
 
-Run once, at the start of a new project, after Phase 0 setup is complete
-(`phases/PHASE-0-SETUP.md`).
+Run once, at the start of a new project, after Phase 0 setup is complete (`phases/PHASE-0-SETUP.md`).
 
+CLI Shortcut:
+```bash
+python -m orchestrator.cli init "{{PROJECT_NAME}}" --track Product/Web
+```
+
+Agent Prompt:
 ```
 You are bootstrapping a new project with akstack. The files in this repo:
 plan.md, ToDos.md, agents/TEAM.md, agents/<role>.md, PROGRESS.md.
@@ -41,68 +46,86 @@ STEP 3 — Fill agents/TEAM.md §3 File Ownership for the actual chosen stack.
 STEP 4 — Generate ToDos.md Phase 1 tasks only (per phases/PHASE-1-DISCOVERY.md).
 Use the task format in ToDos.md §0.2.
 
-STEP 5 — Report every open question and assumption. STOP here — do not
+STEP 5 — Run `python -m orchestrator.cli lint` to verify structure.
+
+STEP 6 — Report every open question and assumption. STOP here — do not
 proceed to execution. A human reviews plan.md, especially §3, before
 anything else happens.
 ```
 
-After approval, generate each subsequent phase's tasks one phase at a time
-(not all six up front) — later phases should reflect what earlier ones
-actually produced, not a guess made before Phase 1 even ran.
+After approval, generate each subsequent phase's tasks one phase at a time (not all six up front) — later phases must reflect what earlier ones actually produced.
 
 ---
 
-## 2. The Build Loop (single task)
+## 2. The Build Loop (Single Task)
 
-Zero memory of the previous run — `ToDos.md` and `PROGRESS.md` are the only
-continuity, which is why every task ends in a commit.
+Zero memory of the previous run — `ToDos.md` and `PROGRESS.md` are the only continuity, which is why every task ends in a commit.
 
+CLI Shortcuts:
+```bash
+# 1. Inspect next runnable task
+python -m orchestrator.cli next
+
+# 2. Mark task in-progress
+python -m orchestrator.cli start <task-id>
+
+# 3. Complete task (runs Verify command, appends to PROGRESS.md, commits)
+python -m orchestrator.cli complete <task-id>
+```
+
+Agent Prompt:
 ```
 You are one iteration of the akstack build loop for {{PROJECT_NAME}}. You
 have no memory of previous iterations. The repository is your only state.
 
-STEP 1 — Orient. Read plan.md, ToDos.md, agents/TEAM.md, PROGRESS.md
-(newest entries first).
+STEP 1 — Orient. Run `python -m orchestrator.cli status` and read plan.md,
+ToDos.md, agents/TEAM.md, PROGRESS.md (newest entries first).
 
-STEP 2 — Select. Follow ToDos.md §0 steps 2-4 to pick exactly one task.
+STEP 2 — Select. Run `python -m orchestrator.cli next` to pick exactly one task.
 
-STEP 3 — Build. Read the role brief in agents/<owner>.md for the task's
-Owner before writing anything. Touch only its Files: list. Apply every rule
-in agents/TEAM.md §4 and GLOBAL-RULES.md without exception.
+STEP 3 — Build. Run `python -m orchestrator.cli start <task-id>`. Read the
+role brief in agents/<owner>.md for the task's Owner before writing anything.
+Touch only its Files: list. Apply every rule in agents/TEAM.md §4 and
+GLOBAL-RULES.md without exception.
 
-STEP 4 — Verify, record, stop. Per ToDos.md §0. If the task is UI-facing,
-run Impeccable's critique if installed before marking Accept: satisfied. If
-the task is ★, confirm you are the strongest model tier available — if not,
-stop and say so rather than doing ★ work at a lesser tier.
+STEP 4 — Verify, record, complete. Run the task's Verify command. If the task
+is UI-facing, run Impeccable's critique if installed before marking Accept satisfied.
+If the task is ★, confirm you are the strongest model tier available.
+Run `python -m orchestrator.cli complete <task-id>` to verify, record, and commit.
 
 Print:
   COMPLETED: <task-id>
   NEXT: <next task-id>
-  REMAINING: <count of `- [ ]` in this phase>
 ```
 
 ---
 
 ## 3. Whole-Phase Run
 
+CLI Shortcut:
+```bash
+# View runnable tasks partitioned into conflict-free parallel waves
+python -m orchestrator.cli next --phase {{N}} --parallel
+```
+
+Agent Prompt:
 ```
 Complete all remaining `- [ ]` tasks in PHASE {{N}} of {{PROJECT_NAME}},
 per phases/PHASE-{{N}}-*.md, then run that phase's gate(s), then stop.
 
 Repeat the Build Loop (§2) task by task in dependency order, re-reading
-PROGRESS.md between tasks — your own last entry may contain something the
+PROGRESS.md between tasks — your own last entry may contain context the
 next task needs.
 
-If two remaining tasks share no dependency and their Files: lists don't
-overlap at all, they COULD run in parallel — but run them sequentially
-unless a multi-agent dispatch tool (e.g. gstack) is installed and the
-person has asked for parallel execution. Overlapping-file corruption from
-simultaneous edits is the top failure mode of this kind of build.
+If multiple remaining tasks share no dependencies and their Files: lists
+do not overlap at all, verify via `python -m orchestrator.cli next --parallel`
+before parallel dispatch. Overlapping-file corruption from simultaneous
+edits is the top failure mode of autonomous builds.
 
 When every task in the phase is `- [x]`, run its gate(s) from §4 below in
-order. Stop after the last gate and report: every task completed and any
-deviation from its original text, anything a human must do (check
-PROGRESS.md for HANDOFF entries), and the next phase's first task.
+order. Stop after the last gate and report: every task completed, anything a
+human must do (check PROGRESS.md for HANDOFF entries), and the next phase's
+first task.
 ```
 
 ---
@@ -119,7 +142,7 @@ For every model artifact produced in Phase {{N}}: confirm it traces to a
 versioned dataset and logged hyperparameters, and that its evaluation
 metric clears the threshold plan.md requires.
 
-For anything that doesn't clear this bar, file a new task into ToDos.md
+For anything that doesn't clear this bar, file a new -F task into ToDos.md
 directly below this gate, owned by the engineer who produced it. Leave the
 gate unchecked until every model artifact in this phase is registered,
 reproducible, and above threshold.
@@ -139,8 +162,8 @@ dates/IDs, seeded randomness, isolated setup/teardown.
 Run the full suite. You write tests only — file any defect with a
 reproduction for the owning engineer, never fix production code yourself.
 
-Gate passes only when the suite is genuinely green. Check it off, append to
-PROGRESS.md, commit.
+Gate passes only when the suite is genuinely green (exit code 0). Check it off:
+python -m orchestrator.cli gate P{{N}}-G1
 ```
 
 ### 4.2 Code Review gate (G2)
@@ -151,8 +174,7 @@ agents/TEAM.md §3-4, and plan.md §3.
 
 Review all code added in Phase {{N}} for production-grade quality: edge
 cases beyond the happy path, error handling, maintainability, file-ownership
-and Hard Rule compliance, test coverage adequacy (not raw percentage —
-whether the risky paths are actually covered), and documentation.
+and Hard Rule compliance, test coverage adequacy, and documentation.
 
 You are REVIEW-ONLY. You do not edit code.
 
@@ -163,12 +185,9 @@ For every finding:
   IMPACT: why it matters in production
   FIX: specific remediation
 
-For each Critical/High finding, file a new task into ToDos.md directly
+For each Critical/High finding, file a new -F task into ToDos.md directly
 below this gate, owned by whoever should fix it, in the standard task
 format. Leave the gate unchecked until none remain open.
-
-If the phase's code is genuinely solid, say so plainly rather than
-manufacturing findings.
 ```
 
 ### 4.3 Security gate (G3)
@@ -177,15 +196,14 @@ manufacturing findings.
 You are senior-security-engineer (gate mode) for {{PROJECT_NAME}}. Read
 agents/senior-security-engineer.md and plan.md §3.
 
-Review all code added in Phase {{N}} against OWASP Top 10 plus this
+Review all code added in Phase {{N}} against OWASP Top 10 + ASVS plus this
 project's Hard Rules. You are REVIEW-ONLY.
 
-For every finding: SEVERITY | FILE:line | ISSUE | EXPLOIT (concrete
-input/state) | FIX. Report only what you can substantiate with a concrete
-failure scenario.
+For every finding: SEVERITY | FILE:line | ISSUE | EXPLOIT (concrete input/state) | FIX.
+Report only what you can substantiate with a concrete failure scenario.
 
-File each Critical/High finding as a new task below this gate. Leave it
-unchecked until none remain open. If clean, say so plainly.
+File each Critical/High finding as a new -F task below this gate. Leave it
+unchecked until none remain open. If clean, run `python -m orchestrator.cli gate P{{N}}-G3`.
 ```
 
 ### 4.4 UX/Visual gate (G4)
@@ -197,27 +215,42 @@ agents/visual-qa.md and agents/brand-guardian.md.
 
 Check every target breakpoint from plan.md. Check against
 design-system/MASTER.md for drift. If Impeccable is installed, run its
-critique as part of this pass rather than duplicating its checks by hand.
+critique as part of this pass rather than duplicating checks by hand.
 
-Both are REVIEW-ONLY. File findings the same way as the security gate.
-Leave the gate unchecked until resolved or explicitly deferred with a
-reason recorded in PROGRESS.md.
+Both are REVIEW-ONLY. File findings as -F tasks below this gate.
 ```
 
-### 4.5 Performance gate (G5)
+### 4.5 Accessibility gate (G4-A11Y)
+
+```
+You are senior-accessibility-engineer for {{PROJECT_NAME}}. Read
+agents/senior-accessibility-engineer.md.
+
+Audit all screens and components added in Phase {{N}} against WCAG 2.2 AA:
+- Keyboard navigation (focus visible, no focus traps, tab order).
+- Color contrast >= 4.5:1 (>= 3:1 for large text/icons).
+- Semantic HTML (proper heading hierarchy, landmarks, buttons vs links).
+- ARIA labels and live regions for dynamic content.
+
+You are REVIEW-ONLY. File findings as -F tasks. When compliant, run:
+python -m orchestrator.cli gate P{{N}}-G4-A11Y
+```
+
+### 4.6 Performance gate (G5)
 
 ```
 You are senior-performance-engineer for {{PROJECT_NAME}}. Read
 agents/senior-performance-engineer.md.
 
-Measure Core Web Vitals / API latency against plan.md's budget (or a
-reasonable default if none was set). Trace any miss to its specific cause
-— not "LCP regressed" but "LCP regressed because X."
+Measure Core Web Vitals and API latency against plan.md's budget (or defaults:
+LCP < 2.5s, INP < 200ms, CLS < 0.1, API P95 < 300ms). Trace any miss to its
+specific cause.
 
-REVIEW-ONLY. File findings the same way as the other gates.
+REVIEW-ONLY. File findings as -F tasks. When budget is cleared:
+python -m orchestrator.cli gate P{{N}}-G5
 ```
 
-### 4.6 Sign-off gate (G6)
+### 4.7 Sign-off gate (G6)
 
 ```
 Phase {{N}} sign-off for {{PROJECT_NAME}}.
@@ -226,14 +259,9 @@ Phase {{N}} sign-off for {{PROJECT_NAME}}.
 2. Run the full lint/test/build regression suite.
 3. Re-read the phase's exit criteria in phases/PHASE-{{N}}-*.md and confirm
    each is genuinely met — demonstrate it, don't assume it.
-4. Append a phase summary to PROGRESS.md (format in PROGRESS.md itself):
-   what was built, what was verified, known gaps, what Phase {{N+1}} needs
-   to know.
+4. Append a phase summary to PROGRESS.md.
 5. git tag phase-{{N}}-complete
-6. Check off the gate, commit.
-
-Report honestly — if an exit criterion isn't actually met, say so and leave
-the gate unchecked rather than pass a phase that isn't done.
+6. python -m orchestrator.cli gate P{{N}}-G6
 ```
 
 ---
@@ -243,14 +271,13 @@ the gate unchecked rather than pass a phase that isn't done.
 ### 5.1 A task is blocked (`- [!]`)
 
 ```
-ToDos.md has a task marked `- [!]`. Read PROGRESS.md for the recorded
-error. Diagnose the root cause rather than retrying blindly — three
-attempts already failed. Consider: under-specified? too large? a missing
-dependency? a wrong Verify: command?
+ToDos.md has a task marked `- [!]`. Read PROGRESS.md for the recorded error.
+Diagnose root cause rather than retrying blindly: under-specified? too large?
+missing dependency? wrong Verify command?
 
-Then either: (a) fix the real problem and reset to `- [ ]`, (b) split it
-into smaller tasks, (c) correct its Files:/Accept:/Verify: fields and
-reset, or (d) mark it 🧑 HUMAN if it's genuinely a human decision.
+Then either: (a) fix the problem and reset to `- [ ]`, (b) split it into smaller tasks,
+(c) correct its Files:/Accept:/Verify: fields and reset, or (d) mark 🧑 HUMAN if it is
+genuinely a human decision.
 
 Record your reasoning in PROGRESS.md and commit.
 ```
@@ -258,17 +285,16 @@ Record your reasoning in PROGRESS.md and commit.
 ### 5.2 The loop is stuck
 
 ```
-No task has completed in the last several iterations. Diagnose: unmet
-dependencies or a dependency cycle? An orphaned `- [~]` from a crashed
-iteration? A repo-wide build break failing every Verify:? A missed STOP
-file?
+No task has completed in several iterations. Run `python -m orchestrator.cli status`
+and `python -m orchestrator.cli lint`. Diagnose: unmet dependencies, cyclic dependencies,
+an orphaned `- [~]`, or a missed STOP file?
 
-Fix the root cause, record it in PROGRESS.md, commit, report what changed.
+Fix root cause, record in PROGRESS.md, and report what changed.
 ```
 
 ### 5.3 Reverting a bad task
 
-```
+```bash
 git log --oneline -10
 git reset --hard <commit-before-the-bad-task>
 ```
@@ -280,10 +306,8 @@ Reset that task's checkbox to `- [ ]` in `ToDos.md` and re-run the loop.
 
 ### 6.1 Status
 
-```
-Report build status: tasks complete vs remaining per phase, current phase,
-next task, any `- [!]` blocked tasks, the last 5 PROGRESS.md entries. Do
-not change anything.
+```bash
+python -m orchestrator.cli status
 ```
 
 ### 6.2 Re-plan a phase
@@ -292,38 +316,18 @@ not change anything.
 Phase {{N}} has proven wrong in practice: <what went wrong>.
 Re-plan only this phase, keeping the task format and ID scheme. Preserve
 completed `- [x]` tasks. Explain what changed and why in PROGRESS.md. Do
-not touch other phases.
+not touch other phases. Run `python -m orchestrator.cli lint` after updating.
 ```
 
-### 6.3 Cross-cutting change (including on a live system, post-Phase-6)
+### 6.3 Cross-cutting change (including live system, post-Phase-6)
 
 ```
 A requirement has changed: <the new requirement>.
-1. Update plan.md — the relevant section, plus §8 if an assumption changed.
+1. Update plan.md — the relevant section, plus §9 if an assumption changed.
 2. Identify every affected ToDos.md task. Completed ones get a new
    `- [ ] P<N>-C<nn>` change task; pending ones are edited in place.
-3. If this touches a live, already-launched system, treat it as a new pass
-   through the relevant phase's gates (Phase 5) before it ships again — a
-   live system doesn't get to skip the review it already passed once.
-4. Do not silently widen the scope of an unrelated task.
-5. Summarize the impact in PROGRESS.md and commit.
+3. If this touches a live system, pass through Phase 5 quality gates before
+   re-shipping.
+4. Run `python -m orchestrator.cli lint`.
+5. Summarize impact in PROGRESS.md and commit.
 ```
-
----
-
-## 7. Running Unattended — read before enabling
-
-If your harness supports a fully-autonomous / bypass-permissions mode:
-
-- **Always on a branch, never `main`.** Merge only after review.
-- **A commit after every task** — any bad iteration reverts with one
-  `git reset --hard`.
-- **An iteration cap.** Never let it run indefinitely unsupervised.
-- **Stuck detection** — N consecutive iterations with no completed task
-  stops the loop rather than spinning forever.
-- **The `STOP` file convention** — any 🧑 HUMAN task halts immediately.
-- **All six Phase 5 gates stay mandatory**, even in unattended mode — never
-  let a speed optimization quietly skip code review, security, or UX.
-
-Skim `git log` and `PROGRESS.md` between phases even when running
-unattended. Safe to leave alone is not the same as safe to never check.
