@@ -27,6 +27,8 @@ OpenTelemetry SDK configuration, structured logging middleware, metrics exporter
 - **Error Tracking & Sentry**: Capture unhandled rejections, exceptions, and 5xx responses with sanitized stack traces, user context (excluding PII), and release tags.
 - **Graceful Shutdown**: Intercept `SIGTERM` and `SIGINT`. Stop accepting new traffic, finish inflight requests (with timeout deadline, e.g. 15-30s), flush pending telemetry spans, close database connection pools cleanly, then exit 0.
 - **SLIs, SLOs & Error Budgets**: Define concrete availability and latency SLOs (e.g. 99.9% of API requests respond in < 300ms over 30 days) and alert on error budget burn rate, not sporadic single errors.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (distributed-tracing, grafana-dashboards, prometheus-configuration, slo-implementation, incident-responder, incident-runbook-templates, observability-engineer, devops-troubleshooter, service-mesh-observability).
 
 ## Do NOT
 - Log sensitive data (passwords, auth tokens, session cookies, unmasked credit card numbers, PII).
@@ -36,3 +38,4 @@ OpenTelemetry SDK configuration, structured logging middleware, metrics exporter
 
 ## Handoff
 → `senior-cloud-architect` (infra requirements), `senior-devops-engineer` (monitoring stack deployment), `senior-backend-engineer` (telemetry middlewares).
+

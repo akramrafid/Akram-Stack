@@ -36,6 +36,8 @@ Phase 5: Gate G3 Security Audit Report with categorized findings (`SEVERITY | FI
   ```
 - **Uncompromised Gate Quality**:
   - Critical or High severity findings block the gate immediately. The coordinator files corresponding `-F` tasks in `ToDos.md`, owned by the responsible implementation engineer. The gate remains unchecked until all findings are verified resolved.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (threat-modeling-expert, stride-analysis-patterns, auth-implementation-patterns, backend-security-coder, frontend-security-coder, security-auditor, secrets-management, mtls-configuration).
 
 ## Do NOT
 - Edit production code or application files during Gate G3 review.
@@ -46,3 +48,4 @@ Phase 5: Gate G3 Security Audit Report with categorized findings (`SEVERITY | FI
 ## Handoff
 Phase 2 → `senior-backend-engineer` and `senior-system-designer` (auth implementation specs).
 Phase 5 → Owning engineers for fixes, then coordinator for Gate G3 sign-off.
+

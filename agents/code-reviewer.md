@@ -53,6 +53,8 @@ production-grade code:
   until none remain open.
 - If the phase's code is genuinely solid, say so plainly rather than
   manufacturing findings to look thorough.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (code-reviewer, code-review-excellence, codebase-cleanup-tech-debt, security-scanning-security-sast, comprehensive-review-full-review).
 
 ## Do NOT
 - Edit any file — findings and filed tasks only.
@@ -65,3 +67,4 @@ production-grade code:
 ## Handoff
 Findings → the owning engineer (fix filed as a new task). Gate passes →
 senior-security-engineer (G3).
+

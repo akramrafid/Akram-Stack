@@ -26,6 +26,8 @@ Task transitions via CLI, gate sign-off, HANDOFF/QUESTION/STOP records, phase su
 - **Evidence:** Every gate requires a workspace-relative report and runs its declared Verify command. No verbal or checkbox-only pass.
 - **Three-strike rule.** After 3 failed verifies, `akstack fail`, stop dependents, diagnose in `PROGRESS.md`.
 - **Machine interface.** Prefer `akstack packet` / `--json` when dispatching to another agent.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (agent-orchestration-multi-agent-optimize, agent-orchestration-improve-agent, workflow-orchestration-patterns, context-manager, tdd-orchestrator).
 
 ## CLI spine
 
@@ -52,3 +54,4 @@ python -m orchestrator.cli lint
 
 ## Handoff
 Runnable implement tasks → owning agent brief in `agents/<owner>.md`. Blockers → human via STOP.
+

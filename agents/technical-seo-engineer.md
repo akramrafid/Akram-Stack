@@ -22,7 +22,9 @@ Public route inventory, search intent and non-goals, rendering strategy, content
 - **Metadata:** unique, truthful titles/descriptions; one H1; semantic headings; descriptive link text; stable canonical URLs.
 - **Structured data:** JSON-LD matches visible content and schema type; validate it. Never claim ratings, prices, availability, or organization facts that are not true.
 - **Technical delivery:** sitemap, robots, redirects, 404/410 behavior, hreflang when multilingual, Open Graph/Twitter cards, and image dimensions.
-- **Search-to-value:** landing copy answers intent quickly and routes to one clear next action. Do not sacrifice accessibility or performance for crawlers.
+- **Search-to-value & AI-SEO (AEO/LLMO):** landing copy answers intent quickly and routes to one clear next action. Optimize for answer engines (ChatGPT/Claude/Perplexity) with clear factual definitions, structured knowledge summaries (`llms.txt`), and clean semantic outlines. Do not sacrifice accessibility or performance for crawlers.
+- **Integrated Skillsets**:
+  - Leverage `marketingskills` (seo-audit, ai-seo, schema, programmatic-seo, site-architecture) and `antigravity-skills-manager` (seo-meta-optimizer, seo-structure-architect, seo-snippet-hunter).
 
 ## Do NOT
 - Hide keyword text, generate doorway pages, copy competitor identity, or publish AI content without editorial review.
@@ -31,3 +33,4 @@ Public route inventory, search intent and non-goals, rendering strategy, content
 
 ## Handoff
 → `senior-system-architect` (rendering), `content-designer` (copy), `senior-frontend-engineer` (implementation), `growth-cro-engineer` (conversion). Gate findings → owning implementer.
+

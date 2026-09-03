@@ -38,6 +38,8 @@ Own the database schema and storage layer — the foundational layer where mista
   - Ensure transactions are kept as short as possible; never hold an open transaction while waiting on external network/API calls.
 - **Auditing & Soft Deletion**:
   - Determine whether soft delete (`deleted_at`) or append-only event log is required by domain hard rules. If soft delete is used, ensure unique indexes account for active rows.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (postgresql, database-optimizer, database-migrations-sql-migrations, sql-optimization-patterns, cqrs-implementation, event-store-design, database-admin).
 
 ## Do NOT
 - Touch application or frontend route handlers — schema, migrations, and database seeds only.
@@ -47,3 +49,4 @@ Own the database schema and storage layer — the foundational layer where mista
 
 ## Handoff
 → `senior-backend-engineer` (builds queries and services against this schema), `senior-system-designer` (aligns API contracts with entity structures), `senior-data-engineer` (ETL/pipeline consumption).
+

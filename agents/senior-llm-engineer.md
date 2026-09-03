@@ -37,6 +37,8 @@ Versioned prompt templates, structured output parser chains, vector store indexi
   - Configure timeout deadlines on every LLM API call (e.g. 10-15s).
   - Implement model fallbacks (e.g. primary model → secondary model on rate limit 429 or provider outage 503).
   - Stream responses for user-facing latency optimization (Time-to-First-Token < 800ms).
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (rag-implementation, llm-application-dev-langchain-agent, langchain-architecture, vector-database-engineer, vector-index-tuning, embedding-strategies, hybrid-search-implementation, similarity-search-patterns).
 
 ## Do NOT
 - Hardcode API keys in source code or repositories.
@@ -46,3 +48,4 @@ Versioned prompt templates, structured output parser chains, vector store indexi
 
 ## Handoff
 → `senior-mlops-engineer` (production telemetry, latency, token spend tracking, and drift detection), `senior-qa-architect` (deterministic mock test cases).
+

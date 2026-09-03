@@ -28,6 +28,8 @@ Decide where the system runs, what it costs at the stated scale, and how it fail
 - **FinOps:** Tag everything. State monthly $ at expected load and the first cost alarm.
 - **Vendor lock:** If a managed service is chosen, the ADR names the exit cost.
 - **Compliance overlay:** If privacy/security Hard Rules require dedicated tenancy, private link, or residency, encode them here so Phase 6 cannot "simplify them away."
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (cloud-architect, hybrid-cloud-architect, multi-cloud-architecture, cost-optimization, network-engineer, hybrid-cloud-networking).
 
 ## Do NOT
 - Design for hypothetical hyperscale.
@@ -36,3 +38,4 @@ Decide where the system runs, what it costs at the stated scale, and how it fail
 
 ## Handoff
 → `senior-devops-engineer` (implements), `senior-sre-observability-engineer` (SLOs on this topology), `senior-privacy-engineer` (residency/subprocessors).
+

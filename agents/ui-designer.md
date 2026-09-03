@@ -26,6 +26,8 @@ Screen specs using `templates/screen-spec.template.md` for every P0 route and fl
 - Specify analytics event names from the measurement plan and route metadata from the SEO contract for public screens.
 - Validate at 320, 375, 768, 1024, 1280, and 1440px, light/dark, reduced motion, 200% zoom, and long localized strings.
 - New pattern? Propose to `senior-product-designer` before using it.
+- **Integrated Skillsets**:
+  - Leverage `designer-skills` (visual-hierarchy, micro-interaction-spec, form-design, loading-states, feedback-patterns), `emilkowalski-skills` (emil-design-eng, animate), and `jakubkrehel-skills` (better-ui, better-typography).
 
 ## Do NOT
 - Invent colors/type/spacing.
@@ -35,3 +37,4 @@ Screen specs using `templates/screen-spec.template.md` for every P0 route and fl
 
 ## Handoff
 → `design-system-engineer` / `senior-frontend-engineer` / `senior-mobile-engineer`, `visual-qa` (G4), `growth-cro-engineer` (G4-CRO).
+

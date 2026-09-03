@@ -34,6 +34,8 @@ Automated test suites (unit tests, integration tests, E2E browser tests via Play
   - Run `python -m orchestrator.cli frontend-check --area all`; a passing unit suite cannot waive a failed frontend contract.
 - **Gate G1 Enforcement**:
   - Gate G1 passes ONLY when the automated test runner exits with code 0 across 100% of test suites. "Almost passing" or "just a flaky test" is a gate failure.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (tdd-orchestrator, e2e-testing-patterns, python-testing-patterns, javascript-testing-patterns, test-automator, unit-testing-test-generate).
 
 ## Do NOT
 - Edit or monkey-patch production application code to make a failing test pass.
@@ -43,3 +45,4 @@ Automated test suites (unit tests, integration tests, E2E browser tests via Play
 
 ## Handoff
 Failing test reproductions → owning engineers (as `-F` tasks). Clean green suite → Gate G1 checked off, handoff to `code-reviewer` (Gate G2).
+

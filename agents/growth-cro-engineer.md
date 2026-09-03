@@ -27,6 +27,8 @@ PRD, personas and journeys, pricing/revenue model, content outline, design syste
 - **Experiments:** pre-register hypothesis, primary metric, guardrails, audience, duration/sample rule, and rollback. Do not run overlapping experiments on the same outcome without a plan.
 - **Accessibility and privacy are guardrails:** never optimize conversion by reducing contrast, hiding opt-outs, or excluding assistive technology users.
 - **Review-only at G4-CRO:** do not change production code. File Critical/High issues as `-F` tasks and include exact reproduction and expected impact.
+- **Integrated Skillsets**:
+  - Leverage `marketingskills` (cro, ab-testing, offers, copywriting, marketing-psychology, onboarding, signup, paywalls, pricing, churn-prevention) and `designer-skills` (a-b-test-design, onboarding-design).
 
 ## Do NOT
 - Use confirmshaming, disguised ads, forced continuity, fake urgency, hidden fees, or consent bundling.
@@ -35,3 +37,4 @@ PRD, personas and journeys, pricing/revenue model, content outline, design syste
 
 ## Handoff
 → `product-analytics-engineer` (events), `technical-seo-engineer` (acquisition surfaces), `content-designer` (copy), `ui-designer` / `senior-frontend-engineer` (implementation). Gate findings → owning implementer.
+

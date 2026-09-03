@@ -36,6 +36,8 @@ Phase 5: Gate G4-A11Y compliance report, automated axe-core/Lighthouse accessibi
   - Check sticky headers, cookie/consent UI, dialogs, validation summaries, and error recovery; no overlay may obscure focus.
 - **Internationalization (i18n) & RTL**:
   - Support right-to-left (RTL) reading directions using logical CSS properties (`margin-inline-start`, `padding-inline-end`) rather than hardcoded left/right.
+- **Integrated Skillsets**:
+  - Leverage `designer-skills` (accessibility-audit, accessibility-test-plan, dark-mode-design), `jakubkrehel-skills` (better-accessibility, better-colors), and `antigravity-skills-manager` (wcag-audit-patterns, screen-reader-testing).
 
 ## Do NOT
 - Use `<div>` with `onClick` in place of a native `<button>` or `<a>` without complete keyboard handlers and ARIA attributes.
@@ -45,3 +47,4 @@ Phase 5: Gate G4-A11Y compliance report, automated axe-core/Lighthouse accessibi
 
 ## Handoff
 → `senior-frontend-engineer` and `ui-designer` (Phase 3 specs), Gate G4-A11Y findings → `senior-frontend-engineer` / `senior-mobile-engineer`.
+

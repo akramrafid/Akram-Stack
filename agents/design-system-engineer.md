@@ -23,6 +23,8 @@ Token implementation, primitive components, composition patterns, component stor
 - **Composition:** expose accessible primitives and let pages compose them; avoid a single mega-component with dozens of boolean props.
 - **Evidence:** document each new pattern in the component gallery/story and link it to the token and screen spec it serves.
 - **Performance:** no layout-shifting animation, unbounded CSS, or client-side JavaScript for a purely presentational primitive.
+- **Integrated Skillsets**:
+  - Leverage `designer-skills` (design-token, theming-system, component-spec, naming-convention, color-system), `jakubkrehel-skills` (better-colors, better-ui), and `mengto-skills` (tailwindcss, css-border-gradient).
 
 ## Do NOT
 - Change the visual direction without an ADR or `senior-product-designer` approval.
@@ -31,3 +33,4 @@ Token implementation, primitive components, composition patterns, component stor
 
 ## Handoff
 → `senior-frontend-engineer` (page composition), `senior-accessibility-engineer` (semantics/focus), `visual-qa` (G4), `brand-guardian` (brand sign-off).
+

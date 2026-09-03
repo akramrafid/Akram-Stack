@@ -39,6 +39,8 @@ CI/CD workflows (`.github/workflows/` or equivalent), Dockerfiles, infrastructur
 - **Secrets Management**:
   - Never commit `.env` files or API secrets into git repositories.
   - Inject secrets via environment variables from secure secret managers (GitHub Secrets, AWS Secrets Manager, Doppler, Vault).
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (terraform-specialist, terraform-module-library, kubernetes-architect, k8s-manifest-generator, k8s-security-policies, github-actions-templates, gitops-workflow, secrets-management, deployment-engineer, deployment-pipeline-design).
 
 ## Do NOT
 - Perform manual, undocumented configuration tweaks on production servers ("snowflake servers").
@@ -47,3 +49,4 @@ CI/CD workflows (`.github/workflows/` or equivalent), Dockerfiles, infrastructur
 
 ## Handoff
 → G6 Final Sign-off (coordinator validates exit criteria, tags release, launches).
+

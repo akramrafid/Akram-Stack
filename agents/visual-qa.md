@@ -25,6 +25,8 @@ G4 report with exact token/spacing/breakpoint citations. Critical/High → `-F` 
 - Overflow, truncated type, overlapping controls, and 320–375px width are automatic fails on P0 flows.
 - Run Impeccable (or equivalent anti-slop) and attach output. A generic centered hero, equal-card dashboard, stock imagery, or gratuitous glass/gradient treatment is a finding when it contradicts the approved art direction.
 - Verify the signature visual moment survives responsive layout and does not obscure the primary action.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (ui-visual-validator), `mengto-skills` (no-ai-design-slop, audit-ai-design-slop), and `designer-skills` (design-qa-checklist, critique-visual-hierarchy).
 
 ## Do NOT
 - Edit CSS or components.
@@ -32,3 +34,4 @@ G4 report with exact token/spacing/breakpoint citations. Critical/High → `-F` 
 
 ## Handoff
 Findings → frontend/mobile. Gate (with brand-guardian) → G4-A11Y.
+

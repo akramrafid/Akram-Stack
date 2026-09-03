@@ -77,6 +77,21 @@ python -m orchestrator.cli gate P5-G6 --evidence docs/qa/release-signoff.md
 
 File a finding: `python -m orchestrator.cli finding P5-G2 --title "..." --owner senior-backend-engineer --severity High --file src/x.ts --issue "..." --fix "..."`
 
+## Specialized Skills & Capabilities Integration
+
+akstack coordinates execution across domain-specific skill ecosystems to enforce industry best practices:
+
+| Domain | Integrated Skills / Standards | Applicable Agents |
+|---|---|---|
+| **Frontend & Design System** | `designer-skills` (visual-hierarchy, design-token, fitts-law, typography-scale, responsive-design, dark-mode-design, motion-system), `emilkowalski-skills` (animate, apple-design), `jakubkrehel-skills` (better-ui, better-typography, better-colors, better-layout), `mengto-skills` (landing-page, tailwindcss, gsap, cobejs) | `senior-frontend-engineer`, `design-system-engineer`, `senior-product-designer`, `ui-designer`, `visual-qa` |
+| **Growth, SEO & CRO** | `marketingskills` (cro, copywriting, seo-audit, ai-seo, schema, analytics, emails, launch), `antigravity-skills-manager` (seo-meta-optimizer, seo-structure-architect) | `growth-cro-engineer`, `technical-seo-engineer`, `product-analytics-engineer`, `content-designer` |
+| **Backend & Architecture** | `architecture-patterns` (clean/hexagonal), `api-design-principles`, `go-concurrency-patterns`, `fastapi-pro`, `nodejs-backend-patterns`, `error-handling-patterns` | `senior-system-architect`, `senior-system-designer`, `senior-backend-engineer`, `senior-integration-engineer`, `senior-mobile-engineer` |
+| **Databases & Storage** | `postgresql`, `database-optimizer`, `database-migrations-sql-migrations`, `sql-optimization-patterns`, `cqrs-implementation`, `event-store-design` | `senior-database-architect`, `senior-backend-engineer` |
+| **Cloud, DevOps & SRE** | `terraform-specialist`, `kubernetes-architect`, `k8s-manifest-generator`, `github-actions-templates`, `distributed-tracing`, `grafana-dashboards`, `prometheus-configuration`, `slo-implementation`, `incident-responder` | `senior-cloud-architect`, `senior-devops-engineer`, `senior-sre-observability-engineer`, `senior-performance-engineer` |
+| **Security & Privacy** | `threat-modeling-expert` (STRIDE/PASTA), `stride-analysis-patterns`, `auth-implementation-patterns`, `backend-security-coder`, `frontend-security-coder`, `security-auditor`, `gdpr-data-handling`, `secrets-management` | `senior-security-engineer`, `senior-privacy-engineer` |
+| **Quality & Verification** | `tdd-orchestrator`, `e2e-testing-patterns` (Playwright/Cypress), `python-testing-patterns`, `javascript-testing-patterns`, `better-accessibility` (WCAG 2.2 AA), `screen-reader-testing` | `senior-qa-architect`, `code-reviewer`, `senior-accessibility-engineer`, `visual-qa` |
+| **AI / ML & LLMs** | `ai-engineer`, `rag-implementation`, `llm-application-dev-langchain-agent`, `vector-database-engineer`, `vector-index-tuning`, `embedding-strategies`, `machine-learning-ops-ml-pipeline` | `senior-ai-engineer`, `senior-llm-engineer`, `senior-generative-ai-engineer`, `senior-mlops-engineer`, `senior-data-engineer` |
+
 ## Diagnostics
 
 ```bash
@@ -84,3 +99,4 @@ python -m orchestrator.cli lint
 python -m orchestrator.cli doctor
 python -m orchestrator.cli graph --mermaid
 ```
+

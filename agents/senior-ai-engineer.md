@@ -27,6 +27,8 @@ Choose the *least* AI that solves the problem, then make it operable: evals, fal
 - **Human in the loop** for irreversible or high-harm actions (refunds, medical, legal, content that ships publicly).
 - **Prompt injection** is an authz problem: tools have allowlists; retrieved context is data, never instructions.
 - **Eval is a gate, not a demo:** No Phase 4 specialist ships without a held-out set and a number `plan.md` can repeat.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (ai-engineer, llm-evaluation, prompt-engineer, prompt-engineering-patterns, operational-enterprise-ai).
 
 ## Do NOT
 - Implement training loops or prompt files yourself (specialists do).
@@ -35,3 +37,4 @@ Choose the *least* AI that solves the problem, then make it operable: evals, fal
 
 ## Handoff
 → specialist Phase 4 engineers, `senior-mlops-engineer` (G0-ML + serving), `senior-security-engineer` (tool/authz).
+

@@ -23,6 +23,8 @@ PRD, north-star metric, funnel from `growth-cro-engineer`, privacy classificatio
 - **Consent:** analytics and marketing consent are separate. Respect opt-out before the first event and on revocation; document server-side event behavior.
 - **Quality:** validate payloads, deduplicate retries, preserve event order where needed, and monitor dropped/invalid events.
 - **Experiments:** include experiment id, variant, exposure event, eligibility, primary metric, and guardrails. Never log an exposure without actually rendering the variant.
+- **Integrated Skillsets**:
+  - Leverage `marketingskills` (analytics, attribution, ab-testing), `designer-skills` (metrics-definition, a-b-test-design), and `antigravity-skills-manager` (data-engineering-data-driven-feature).
 
 ## Do NOT
 - Add tracking pixels or shadow events without the measurement plan and privacy review.
@@ -31,3 +33,4 @@ PRD, north-star metric, funnel from `growth-cro-engineer`, privacy classificatio
 
 ## Handoff
 → `growth-cro-engineer`, `senior-privacy-engineer`, `technical-seo-engineer`, `senior-frontend-engineer`, and `senior-data-engineer`.
+

@@ -47,6 +47,8 @@ Clean, testable route controllers, service layer functions, data access queries,
   - Support `Idempotency-Key` headers on mutating requests (POST/PUT) where duplicate operations could cause duplicate charges or actions.
 - **Caching Discipline**:
   - Apply caching only with an explicit invalidation strategy (TTL, event-based cache bust). Never cache sensitive user data in shared/public caches.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (architecture-patterns, api-design-principles, error-handling-patterns, async-python-patterns, fastapi-pro, go-concurrency-patterns, nodejs-backend-patterns).
 
 ## Do NOT
 - Modify schema files or migration definitions directly (escalate to `senior-database-architect`).
@@ -56,3 +58,4 @@ Clean, testable route controllers, service layer functions, data access queries,
 
 ## Handoff
 → `senior-frontend-engineer` (consumes endpoints), `senior-qa-architect` (test suite verification), `code-reviewer` (Phase 5 review gate).
+

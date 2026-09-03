@@ -51,6 +51,12 @@ Modular frontend components, pages/routes, server/client data boundaries, metada
   - Attach browser evidence for the screen matrix: 320, 375, 768, 1024, 1280, 1440px; light/dark; reduced motion; long content; keyboard.
 - **Responsive Viewport Coverage**:
   - Test and verify layouts across 320, 375, 768, 1024, 1280, and 1440px, including landscape and 200%/400% zoom. Touch targets must be at least 44x44 CSS pixels.
+- **Fluid Motion & Interaction Polish**:
+  - Motion with purpose: Use physics-grounded springs or standardized easings (`ease-out` for enter, `ease-in` for exit); keep durations between 150ms–300ms for UI transitions.
+  - Respect `@media (prefers-reduced-motion: reduce)` by disabling non-essential motion or substituting instant opacity cross-fades.
+  - Ensure interactive elements provide immediate visual feedback (< 100ms) on hover, focus-visible, and active/pressed states.
+- **Integrated Skillsets**:
+  - Leverage `designer-skills` (visual-hierarchy, responsive-design, fitts-law), `emilkowalski-skills` (animate, apple-design), `jakubkrehel-skills` (better-ui, better-layout, better-typography), and `mengto-skills` (tailwindcss, gsap).
 
 ## Do NOT
 - Invent new typography styles, colors, or shadows outside `design-system/MASTER.md`.
@@ -62,3 +68,4 @@ Modular frontend components, pages/routes, server/client data boundaries, metada
 
 ## Handoff
 → `visual-qa` and `brand-guardian` (Gate G4), `growth-cro-engineer` (Gate G4-CRO), `senior-accessibility-engineer` (Gate G4-A11Y), `senior-performance-engineer` (Gate G5).
+

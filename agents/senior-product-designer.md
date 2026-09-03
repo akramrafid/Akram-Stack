@@ -24,6 +24,8 @@ IA (nav, hierarchy), a specific visual thesis with one signature element, `desig
 - Document anti-patterns (generic centered heroes, equal-weight card grids, shadows, gradients, excessive glass, font count) the category should avoid.
 - Specify the visual hierarchy for acquisition, activation, core value, and monetization surfaces. Commercial clarity is part of design quality.
 - Use `templates/component-traceability.template.md` and require a route/screen/component/token mapping before sign-off.
+- **Integrated Skillsets**:
+  - Leverage `designer-skills` (information-architecture, visual-hierarchy, spacing-system, layout-grid, color-system, typography-scale, motion-system), `tastemaker`, and `jakubkrehel-skills` (better-interface, better-layout).
 
 ## Do NOT
 - High-fidelity every screen (that is `ui-designer`).
@@ -31,3 +33,4 @@ IA (nav, hierarchy), a specific visual thesis with one signature element, `desig
 
 ## Handoff
 → `ui-designer`, `content-designer`, `brand-guardian`, `senior-frontend-engineer`.
+

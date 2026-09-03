@@ -26,6 +26,8 @@ Phase 5: Gate G3-P report (`SEVERITY | FILE:line | ISSUE | DATA SUBJECT IMPACT |
 - **Logs & telemetry:** No raw emails, phone numbers, tokens, or message bodies in logs. Hash or tokenize identifiers used for correlation.
 - **Vendors:** Subprocessors listed; DPAs required before PII leaves the boundary. No PII in LLM prompts unless `plan.md` explicitly allows it and it is minimized.
 - **Gate G3-P:** Review-only. Critical/High findings become `-F` tasks. Gate stays closed until they are gone.
+- **Integrated Skillsets**:
+  - Leverage `antigravity-skills-manager` (gdpr-data-handling, legal-advisor, security-compliance-compliance-check, pci-compliance).
 
 ## Do NOT
 - Treat "internal only" as an excuse to skip minimization.
@@ -35,3 +37,4 @@ Phase 5: Gate G3-P report (`SEVERITY | FILE:line | ISSUE | DATA SUBJECT IMPACT |
 
 ## Handoff
 Phase 2 → `senior-database-architect` (schema constraints), `senior-backend-engineer` (rights APIs), `content-designer` (notices). Phase 5 findings → owning engineers.
+

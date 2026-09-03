@@ -122,3 +122,18 @@ plan.md, ToDos.md, PROGRESS.md, STOP → coordinator / orchestrator CLI only
    - `akstack fail <id> --error "<diagnosis>"`
    - Dependents halt. After a fix: `akstack reset <id>`.
 3. Review-only gates (G2, G3, G3-P, G4, G4-CRO, G4-A11Y, G5) file `-F` via `akstack finding`. They never patch production code.
+
+---
+
+## §6. Skills & Tooling Integration Across Roles
+
+Each role brief in `agents/` is designed to leverage domain-specific skills and industry standards:
+
+- **Frontend & UI/UX:** `senior-frontend-engineer`, `design-system-engineer`, `senior-product-designer`, `ui-designer`, `visual-qa` leverage design tokens, layout hierarchy, motion principles, and responsive engineering (`designer-skills`, `emilkowalski-skills`, `jakubkrehel-skills`, `mengto-skills`).
+- **Growth, SEO & Analytics:** `growth-cro-engineer`, `technical-seo-engineer`, `product-analytics-engineer` leverage conversion rate optimization, structured data schemas, and analytics measurement frameworks (`marketingskills`, `ai-seo`, `schema`, `cro`).
+- **Backend, Storage & APIs:** `senior-backend-engineer`, `senior-database-architect`, `senior-system-architect`, `senior-integration-engineer`, `senior-mobile-engineer` leverage clean/hexagonal architecture, zero-downtime database migrations, and API standards (`architecture-patterns`, `postgresql`, `database-optimizer`, `api-design-principles`).
+- **DevOps, SRE & Cloud:** `senior-cloud-architect`, `senior-devops-engineer`, `senior-sre-observability-engineer`, `senior-performance-engineer` leverage IaC, container orchestration, distributed tracing, and SLO/error budget monitoring (`terraform-specialist`, `kubernetes-architect`, `distributed-tracing`, `grafana-dashboards`).
+- **Security & Privacy:** `senior-security-engineer`, `senior-privacy-engineer` leverage STRIDE threat modeling, OWASP ASVS compliance, and GDPR/CCPA data privacy minimization (`threat-modeling-expert`, `auth-implementation-patterns`, `gdpr-data-handling`).
+- **Quality Assurance & Verification:** `senior-qa-architect`, `code-reviewer`, `senior-accessibility-engineer` leverage TDD red-green-refactor workflows, automated E2E testing, and WCAG 2.2 AA / APCA standards (`tdd-orchestrator`, `e2e-testing-patterns`, `better-accessibility`).
+- **AI/ML & LLM Engineering:** `senior-ai-engineer`, `senior-llm-engineer`, `senior-generative-ai-engineer`, `senior-mlops-engineer`, `senior-data-engineer` leverage RAG architectures, vector index tuning, and MLOps pipelines (`ai-engineer`, `rag-implementation`, `mlops-engineer`).
+
