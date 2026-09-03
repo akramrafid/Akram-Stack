@@ -3,7 +3,8 @@ Dependency graph resolution, cycle detection, topological sorting,
 and parallel file contention checking for akstack tasks.
 """
 
-from typing import Dict, List, Set, Tuple, Optional
+from typing import Dict, List, Optional
+
 from .models import Task, TaskStatus
 
 
@@ -28,7 +29,6 @@ class DependencyGraph:
         Detect cycles in the dependency graph using 3-color DFS.
         Returns the cycle path if detected, or None.
         """
-        # 0 = WHITE (unvisited), 1 = GRAY (visiting), 2 = BLACK (visited)
         state: Dict[str, int] = {t_id: 0 for t_id in self.task_map}
         parent: Dict[str, Optional[str]] = {t_id: None for t_id in self.task_map}
         cycle_path: List[str] = []
@@ -40,7 +40,6 @@ class DependencyGraph:
                 if dep_id not in self.task_map:
                     continue
                 if state[dep_id] == 1:
-                    # Found cycle! Backtrack to form path
                     curr = node
                     cycle_path.append(dep_id)
                     while curr and curr != dep_id:
@@ -49,7 +48,7 @@ class DependencyGraph:
                     cycle_path.append(dep_id)
                     cycle_path.reverse()
                     return True
-                elif state[dep_id] == 0:
+                if state[dep_id] == 0:
                     parent[dep_id] = node
                     if dfs(dep_id):
                         return True
@@ -57,9 +56,8 @@ class DependencyGraph:
             return False
 
         for node in self.task_map:
-            if state[node] == 0:
-                if dfs(node):
-                    return cycle_path
+            if state[node] == 0 and dfs(node):
+                return cycle_path
         return None
 
     def get_runnable_tasks(self, phase: Optional[int] = None) -> List[Task]:
@@ -71,27 +69,34 @@ class DependencyGraph:
         for task in self.tasks:
             if phase is not None and task.phase != phase:
                 continue
-
             if task.status != TaskStatus.PENDING:
                 continue
-
-            # Check all dependencies are completed
-            deps_satisfied = True
-            for dep_id in task.deps:
-                dep_task = self.task_map.get(dep_id)
-                if not dep_task or dep_task.status != TaskStatus.COMPLETED:
-                    deps_satisfied = False
-                    break
-
-            if deps_satisfied:
+            if self.deps_satisfied(task):
                 runnable.append(task)
-
         return runnable
+
+    def deps_satisfied(self, task: Task) -> bool:
+        for dep_id in task.deps:
+            dep_task = self.task_map.get(dep_id)
+            if not dep_task or dep_task.status != TaskStatus.COMPLETED:
+                return False
+        return True
+
+    def unmet_deps(self, task: Task) -> List[str]:
+        unmet: List[str] = []
+        for dep_id in task.deps:
+            dep_task = self.task_map.get(dep_id)
+            if not dep_task:
+                unmet.append(f"{dep_id} (missing)")
+            elif dep_task.status != TaskStatus.COMPLETED:
+                unmet.append(f"{dep_id} ({dep_task.status.value})")
+        return unmet
 
     def schedule_parallel_waves(self, tasks: List[Task]) -> List[List[Task]]:
         """
         Partition runnable tasks into conflict-free waves.
         Tasks in the same wave have strictly disjoint file sets.
+        Tasks with empty Files: lists are never considered parallel-safe.
         """
         waves: List[List[Task]] = []
 
@@ -100,10 +105,9 @@ class DependencyGraph:
             task_files = task.file_set
 
             for wave in waves:
-                # Check collision with existing tasks in this wave
                 has_collision = False
                 for wave_task in wave:
-                    if task_files and wave_task.file_set and (task_files & wave_task.file_set):
+                    if self._files_collide(task_files, wave_task.file_set):
                         has_collision = True
                         break
                 if not has_collision:
@@ -115,6 +119,40 @@ class DependencyGraph:
                 waves.append([task])
 
         return waves
+
+    @staticmethod
+    def _files_collide(a: set, b: set) -> bool:
+        if not a or not b:
+            return True
+        for left in a:
+            for right in b:
+                if left == right:
+                    return True
+                # Treat a declared directory and any child path as a conflict.
+                if left.startswith(right.rstrip("/") + "/") or right.startswith(left.rstrip("/") + "/"):
+                    return True
+        return False
+
+    def topological_order(self) -> Optional[List[Task]]:
+        if self.detect_cycles():
+            return None
+        indegree = {t.id: 0 for t in self.tasks}
+        for task in self.tasks:
+            for dep_id in task.deps:
+                if dep_id in indegree:
+                    indegree[task.id] += 1
+        queue = [t.id for t in self.tasks if indegree[t.id] == 0]
+        ordered: List[Task] = []
+        while queue:
+            node = queue.pop(0)
+            ordered.append(self.task_map[node])
+            for nxt in self.adj[node]:
+                indegree[nxt] -= 1
+                if indegree[nxt] == 0:
+                    queue.append(nxt)
+        if len(ordered) != len(self.tasks):
+            return None
+        return ordered
 
     def to_mermaid(self) -> str:
         """Export dependency graph as a Mermaid flowchart diagram."""

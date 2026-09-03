@@ -36,6 +36,7 @@ Read `plan.md` in full before writing any application code, especially:
 - **§3 Domain & Hard Rules**: Did it identify the real domain risks (e.g. integer money, transactional consistency, tenant isolation, idempotency)?
 - **§6 SLOs & Budgets**: Are latency, availability, and accessibility targets clear?
 - **§9 Open Questions**: Resolve genuine ambiguities before architecture and implementation.
+- **Frontend intent**: Is the visual thesis, commercial model, north-star metric, public route scope, and viewport matrix explicit?
 
 Approve `plan.md` or instruct the agent to revise specific sections.
 
@@ -48,9 +49,9 @@ The pipeline runs sequentially through 7 phases:
 ```bash
 # Phase 1 — Discovery: capability map, personas, open questions
 # Phase 2 — Architecture: C4 diagrams, database schema, API contracts, threat model
-# Phase 3 — Design: design system in design-system/MASTER.md, accessibility audit
-# Phase 4 — Build: deterministic build loop
-# Phase 5 — Quality & Security: G0-ML through G6 gates
+# Phase 3 — Design: design system, screen specs, funnel/analytics/SEO contracts, accessibility audit, P3-G1 sign-off
+# Phase 4 — Build: deterministic build loop with browser evidence
+# Phase 5 — Quality & Security: applicable G0-ML through G6 gates
 # Phase 6 — DevOps & Launch: CI/CD, container hardening, observability, live deploy
 ```
 
@@ -61,18 +62,12 @@ The pipeline runs sequentially through 7 phases:
 In Phase 4, tasks are executed one at a time or in conflict-free parallel waves:
 
 ```bash
-# 1. View project status and blockers
+python -m orchestrator.cli doctor
 python -m orchestrator.cli status
-
-# 2. Select the next runnable task in dependency order
 python -m orchestrator.cli next
-
-# 3. Mark task as in-progress
+python -m orchestrator.cli packet
 python -m orchestrator.cli start <task-id>
-
-# 4. Implement strictly within declared Files: boundary.
-
-# 5. Complete task (runs Verify command, verifies exit 0, commits)
+# Implement strictly within declared Files: boundary.
 python -m orchestrator.cli complete <task-id>
 ```
 
@@ -82,21 +77,30 @@ python -m orchestrator.cli next --parallel
 ```
 The CLI automatically groups runnable tasks into waves whose declared file boundaries do not overlap.
 
+For frontend projects, validate the design-to-code contract before the quality phase:
+
+```bash
+python -m orchestrator.cli frontend-check --area all
+python -m orchestrator.cli doctor --frontend
+```
+
 ---
 
 ## 6. Running Quality & Security Gates (Phase 5)
 
-Phase 5 enforces 7 mandatory gates in order:
+Phase 5 enforces the applicable gates in order. Product/Web and Hybrid also require the conversion gate:
 
 ```bash
-# Run and clear gates once verification criteria are satisfied:
-python -m orchestrator.cli gate P5-G1         # Test Gate (automated test suite 100% green)
-python -m orchestrator.cli gate P5-G2         # Code Review Gate (clean architecture & standards)
-python -m orchestrator.cli gate P5-G3         # Security Gate (OWASP Top 10 + Hard Rules)
-python -m orchestrator.cli gate P5-G4         # Visual/UX Gate (breakpoint fidelity)
-python -m orchestrator.cli gate P5-G4-A11Y    # Accessibility Gate (WCAG 2.2 AA compliance)
-python -m orchestrator.cli gate P5-G5         # Performance Gate (Core Web Vitals budget)
-python -m orchestrator.cli gate P5-G6         # Final Sign-Off & Git Tag
+# Run and clear gates once verification criteria and evidence files exist:
+python -m orchestrator.cli gate P5-G1 --evidence docs/qa/test-report.md
+python -m orchestrator.cli gate P5-G2 --evidence docs/qa/code-review.md
+python -m orchestrator.cli gate P5-G3 --evidence docs/qa/security-report.md
+python -m orchestrator.cli gate P5-G3-P --evidence docs/qa/privacy-report.md
+python -m orchestrator.cli gate P5-G4 --evidence docs/qa/visual-report.md
+python -m orchestrator.cli gate P5-G4-CRO --evidence docs/analytics/cro-report.md
+python -m orchestrator.cli gate P5-G4-A11Y --evidence docs/qa/accessibility-report.md
+python -m orchestrator.cli gate P5-G5 --evidence docs/performance/report.md
+python -m orchestrator.cli gate P5-G6 --evidence docs/qa/release-signoff.md
 ```
 
 Reviewers in G2 through G5 are **review-only** — they never edit production code; they file `-F` tasks directly below the gate until resolved.
@@ -115,7 +119,9 @@ Reviewers in G2 through G5 are **review-only** — they never edit production co
   python -m orchestrator.cli graph --mermaid
   ```
 - **When a task is blocked (`- [!]`):**
-  Use `PROMPT_LIBRARY.md` §5.1 to diagnose the root cause, fix the issue, and reset the task to `- [ ]`.
+   Use `PROMPT_LIBRARY.md` §5.1 to diagnose the root cause, fix the issue, and reset the task to `- [ ]`.
+- **When a human handoff creates `STOP`:**
+   Resolve the decision/credential, then run `python -m orchestrator.cli resume --notes "what changed"`.
 - **Reverting a bad commit:**
   ```bash
   git log --oneline -10

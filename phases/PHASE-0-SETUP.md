@@ -7,7 +7,8 @@
 - [ ] Global coding discipline rules verified: `~/.gemini/GEMINI.md`
 - [ ] Python 3.10+ runtime available for orchestrator CLI (`python --version`)
 - [ ] Node.js 18+ runtime available (`node --version`)
-- [ ] `ui-ux-pro-max` installed globally (`npm i -g ui-ux-pro-max-cli` & `uipro init`)
+- [ ] Frontend tooling verified for Product/Web and Hybrid: `python -m orchestrator.cli doctor --frontend`
+- [ ] `ui-ux-pro-max` installed at an approved version (`npm i -g ui-ux-pro-max-cli@<version>` & `uipro init`)
 - [ ] `design-system-skill` available (for projects with pre-existing brand assets)
 - [ ] `Impeccable` installed (`npx impeccable install --providers=antigravity --scope=global`)
 - [ ] `akstack` CLI verified: run `python -m orchestrator.cli lint`
@@ -15,7 +16,10 @@
   ```bash
   python -m orchestrator.cli init "My Project" --track Product/Web
   ```
-- [ ] `agents/` present in root (all 35 role briefs + `TEAM.md`)
+- [ ] `agents/` present in root (all 42 role briefs + `TEAM.md`)
+- [ ] Coordinator brief present: `agents/coordinator.md`
+- [ ] Browser evidence kit copied: `playwright.config.ts`, `docs/qa/frontend-quality-checklist.md`
+- [ ] Frontend CI workflow present for Product/Web and Hybrid: `.github/workflows/frontend-quality.yml`
 
 See `integrations/EXTERNAL-TOOLS.md` for exact tool install and verification commands.
 

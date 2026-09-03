@@ -20,10 +20,13 @@ Live design-reasoning engine — colors, typography, layout patterns, industry
 anti-patterns. Used in Phase 3.
 
 ```bash
-npm install -g ui-ux-pro-max-cli
+npm install -g ui-ux-pro-max-cli@<approved-version>
 uipro init --ai antigravity --global      # ~/.agents/skills/
 uipro update --global                     # keep it current
 ```
+
+Record the resolved version in `PROGRESS.md` when a project generates its
+Master. Do not silently regenerate a live design system after a tool update.
 
 ## design-system-skill
 
@@ -41,8 +44,29 @@ Anti-AI-slop detector for design and UX — catches generic-AI-design tells
 before they ship. Used at the Phase 5 UX/Visual gate.
 
 ```bash
-npx impeccable install --providers=antigravity --scope=global
+npx impeccable@<approved-version> install --providers=antigravity --scope=global
 ```
+
+Impeccable is a supplement. It never replaces real-browser screenshots,
+keyboard checks, or the `frontend-check` contract.
+
+## Browser evidence
+
+Product/Web and Hybrid projects must have a browser runner in the application
+repo (Playwright is the default). The quality evidence matrix is 320, 375,
+768, 1024, 1280, and 1440px, plus landscape, light/dark, reduced motion,
+long content, keyboard, and 200%/400% zoom. Store reports and screenshots
+under `docs/qa/` or the paths defined by the project's task `Files:` field.
+
+Recommended application checks:
+
+```bash
+npx playwright test
+npx playwright test --project=chromium
+python -m orchestrator.cli frontend-check --area all
+```
+
+Pin the browser runner and browsers in the application lockfile/CI image.
 
 ## gstack (optional)
 

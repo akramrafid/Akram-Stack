@@ -36,21 +36,24 @@ senior-product-manager.md first, then work through the template:
   ask rather than guess.
   §4-6 — propose stack/architecture appropriate to the requirement and
   track, flagging every assumption.
-  §7 — non-goals.
-  §8 — every genuine ambiguity as an open question. Do not resolve
+  §8 — non-goals.
+  §9 — every genuine ambiguity as an open question. Do not resolve
   ambiguity by silently picking the likely interpretation when it would be
   expensive to reverse.
 
 STEP 3 — Fill agents/TEAM.md §3 File Ownership for the actual chosen stack.
 
-STEP 4 — Generate ToDos.md Phase 1 tasks only (per phases/PHASE-1-DISCOVERY.md).
+STEP 4 — Generate ToDos.md Phase 1 tasks only (per phases/PHASE-1-DISCOVERY.md),
+including the funnel/CRO, analytics, and technical SEO tasks for Product/Web
+and Hybrid tracks.
 Use the task format in ToDos.md §0.2.
 
 STEP 5 — Run `python -m orchestrator.cli lint` to verify structure.
 
 STEP 6 — Report every open question and assumption. STOP here — do not
-proceed to execution. A human reviews plan.md, especially §3, before
-anything else happens.
+proceed to execution. A human reviews plan.md, especially §3, §8, and §9,
+before anything else happens. Complete a HUMAN task with:
+python -m orchestrator.cli approve <task-id> --notes "..." --evidence <report>
 ```
 
 After approval, generate each subsequent phase's tasks one phase at a time (not all six up front) — later phases must reflect what earlier ones actually produced.
@@ -63,13 +66,10 @@ Zero memory of the previous run — `ToDos.md` and `PROGRESS.md` are the only co
 
 CLI Shortcuts:
 ```bash
-# 1. Inspect next runnable task
+python -m orchestrator.cli doctor
 python -m orchestrator.cli next
-
-# 2. Mark task in-progress
+python -m orchestrator.cli packet
 python -m orchestrator.cli start <task-id>
-
-# 3. Complete task (runs Verify command, appends to PROGRESS.md, commits)
 python -m orchestrator.cli complete <task-id>
 ```
 
@@ -89,7 +89,10 @@ Touch only its Files: list. Apply every rule in agents/TEAM.md §4 and
 GLOBAL-RULES.md without exception.
 
 STEP 4 — Verify, record, complete. Run the task's Verify command. If the task
-is UI-facing, run Impeccable's critique if installed before marking Accept satisfied.
+is UI-facing, run `python -m orchestrator.cli frontend-check --area all`, run a
+real browser pass at the approved matrix, and attach evidence before marking
+Accept satisfied. Impeccable is a useful supplement, not a substitute for
+browser evidence.
 If the task is ★, confirm you are the strongest model tier available.
 Run `python -m orchestrator.cli complete <task-id>` to verify, record, and commit.
 
@@ -126,11 +129,19 @@ When every task in the phase is `- [x]`, run its gate(s) from §4 below in
 order. Stop after the last gate and report: every task completed, anything a
 human must do (check PROGRESS.md for HANDOFF entries), and the next phase's
 first task.
+
+For Phase 3 Product/Web or Hybrid work, do not start Phase 4 until `P3-G1`
+HUMAN design sign-off approves the resolved Master, screen-spec set,
+measurement plan, technical SEO contract, and accessibility spec.
 ```
 
 ---
 
 ## 4. Gate Prompts
+
+Run applicable gates in this order: G0-ML (AI/ML and Hybrid), G1, G2, G3,
+G3-P, G4, G4-CRO, G4-A11Y, G5, G6. Product/Web and Hybrid require the
+frontend gates; AI/ML without a user-facing frontend may omit them.
 
 ### 4.0 AI/ML Model Eval gate (G0-ML — AI/ML track only, runs before G1)
 
@@ -162,8 +173,9 @@ dates/IDs, seeded randomness, isolated setup/teardown.
 Run the full suite. You write tests only — file any defect with a
 reproduction for the owning engineer, never fix production code yourself.
 
-Gate passes only when the suite is genuinely green (exit code 0). Check it off:
-python -m orchestrator.cli gate P{{N}}-G1
+Gate passes only when the suite is genuinely green (exit code 0). Capture the
+output in `docs/qa/test-report.md`, then check it off:
+python -m orchestrator.cli gate P{{N}}-G1 --evidence docs/qa/test-report.md
 ```
 
 ### 4.2 Code Review gate (G2)
@@ -190,6 +202,24 @@ below this gate, owned by whoever should fix it, in the standard task
 format. Leave the gate unchecked until none remain open.
 ```
 
+### 4.3b Privacy gate (G3-P)
+
+```
+You are senior-privacy-engineer (gate mode) for {{PROJECT_NAME}}. Read
+agents/senior-privacy-engineer.md and plan.md §3.
+
+Review all code added in Phase {{N}} for data minimization, purpose
+limitation, PII in logs/prompts, retention, and subject-rights coverage.
+You are REVIEW-ONLY.
+
+File each Critical/High finding as a new -F task:
+python -m orchestrator.cli finding P{{N}}-G3-P --title "..." --owner <agent> --severity High --file path --issue "..." --fix "..."
+
+Leave the gate unchecked until none remain open. Capture the report in
+`docs/qa/privacy-report.md`. If clean:
+python -m orchestrator.cli gate P{{N}}-G3-P --evidence docs/qa/privacy-report.md
+```
+
 ### 4.3 Security gate (G3)
 
 ```
@@ -203,7 +233,9 @@ For every finding: SEVERITY | FILE:line | ISSUE | EXPLOIT (concrete input/state)
 Report only what you can substantiate with a concrete failure scenario.
 
 File each Critical/High finding as a new -F task below this gate. Leave it
-unchecked until none remain open. If clean, run `python -m orchestrator.cli gate P{{N}}-G3`.
+unchecked until none remain open. Capture the report in
+`docs/qa/security-report.md`. If clean, run:
+python -m orchestrator.cli gate P{{N}}-G3 --evidence docs/qa/security-report.md
 ```
 
 ### 4.4 UX/Visual gate (G4)
@@ -217,7 +249,31 @@ Check every target breakpoint from plan.md. Check against
 design-system/MASTER.md for drift. If Impeccable is installed, run its
 critique as part of this pass rather than duplicating checks by hand.
 
-Both are REVIEW-ONLY. File findings as -F tasks below this gate.
+Both are REVIEW-ONLY. File findings with:
+python -m orchestrator.cli finding P{{N}}-G4 --title "..." --owner senior-frontend-engineer --severity High --file path --issue "..." --fix "..."
+When clean, attach `docs/qa/visual-report.md` and run:
+python -m orchestrator.cli gate P{{N}}-G4 --evidence docs/qa/visual-report.md
+```
+
+### 4.4b Conversion, Analytics & SEO gate (G4-CRO)
+
+```
+You are growth-cro-engineer with product-analytics-engineer for
+{{PROJECT_NAME}}. Read agents/growth-cro-engineer.md,
+agents/product-analytics-engineer.md, agents/technical-seo-engineer.md,
+docs/discovery/funnel.md, docs/analytics/measurement-plan.md, and
+docs/seo/technical-seo.md.
+
+Review the real built acquisition, signup, activation, pricing, and checkout
+surfaces. Check that value, price, commitment, proof, primary CTA, consent,
+and recovery are clear. Verify funnel events fire only for rendered actions,
+contain no raw PII, respect consent, and support the stated product decision.
+Verify public routes have truthful metadata, canonical/indexability, structured
+data, sitemap/robots behavior, and meaningful server-rendered content.
+
+This is REVIEW-ONLY. No dark patterns. File findings with `akstack finding`.
+When clean, attach `docs/analytics/cro-report.md` and run:
+python -m orchestrator.cli gate P{{N}}-G4-CRO --evidence docs/analytics/cro-report.md
 ```
 
 ### 4.5 Accessibility gate (G4-A11Y)
@@ -232,8 +288,9 @@ Audit all screens and components added in Phase {{N}} against WCAG 2.2 AA:
 - Semantic HTML (proper heading hierarchy, landmarks, buttons vs links).
 - ARIA labels and live regions for dynamic content.
 
-You are REVIEW-ONLY. File findings as -F tasks. When compliant, run:
-python -m orchestrator.cli gate P{{N}}-G4-A11Y
+You are REVIEW-ONLY. File findings as -F tasks. Capture automated and manual
+evidence in `docs/qa/accessibility-report.md`. When compliant, run:
+python -m orchestrator.cli gate P{{N}}-G4-A11Y --evidence docs/qa/accessibility-report.md
 ```
 
 ### 4.6 Performance gate (G5)
@@ -246,22 +303,24 @@ Measure Core Web Vitals and API latency against plan.md's budget (or defaults:
 LCP < 2.5s, INP < 200ms, CLS < 0.1, API P95 < 300ms). Trace any miss to its
 specific cause.
 
-REVIEW-ONLY. File findings as -F tasks. When budget is cleared:
-python -m orchestrator.cli gate P{{N}}-G5
+REVIEW-ONLY. File findings as -F tasks. Capture numbers in
+`docs/performance/report.md`. When budget is cleared:
+python -m orchestrator.cli gate P{{N}}-G5 --evidence docs/performance/report.md
 ```
 
 ### 4.7 Sign-off gate (G6)
 
 ```
 Phase {{N}} sign-off for {{PROJECT_NAME}}.
-1. Confirm every task and every gate in this phase is `- [x]`. A `- [!]`
+1. Confirm every task and every applicable gate in this phase is `- [x]`. A `- [!]`
    task means the phase is not done — stop and report it.
 2. Run the full lint/test/build regression suite.
 3. Re-read the phase's exit criteria in phases/PHASE-{{N}}-*.md and confirm
    each is genuinely met — demonstrate it, don't assume it.
 4. Append a phase summary to PROGRESS.md.
-5. git tag phase-{{N}}-complete
-6. python -m orchestrator.cli gate P{{N}}-G6
+5. Capture the sign-off in `docs/qa/release-signoff.md`.
+6. python -m orchestrator.cli gate P{{N}}-G6 --evidence docs/qa/release-signoff.md
+   (the CLI creates `phase-{{N}}-complete` after the gate passes)
 ```
 
 ---

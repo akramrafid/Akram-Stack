@@ -13,6 +13,11 @@ Phase 4. See `README.md`'s track table and `phases/PHASE-4-BUILD.md`.
 {{One paragraph: what this product/system does, who it's for, the problem
 it solves. Written for someone who's never seen the requirement.}}
 
+- **Primary user outcome:** {{What valuable result should happen?}}
+- **Commercial model:** {{Free / subscription / usage / transaction / internal; state what "lucrative" means for this product.}}
+- **Acquisition surfaces:** {{Public routes, search, referrals, paid campaigns, or none.}}
+- **North-star metric:** {{The repeatable value event, not traffic.}}
+
 ## 2. Users & Roles
 
 | Role | Can do | Cannot do |
@@ -41,6 +46,10 @@ the reasoning. Name this project's non-negotiable domain invariants explicitly:
 - **Observability & SRE:** {{OpenTelemetry, Prometheus metrics, Structured JSON logging, Sentry error tracking}}
 - **Hosting/Infra:** {{Cloud provider (AWS / GCP / Cloudflare / Vercel), Containerization (Docker), CI/CD (GitHub Actions)}}
 - **AI/ML Stack (if Track includes AI/ML):** {{Model providers, embeddings, vector store, orchestration framework, evaluation set}}
+- **Frontend product surface:** {{Web / mobile / both / no user-facing UI}}
+- **Design direction:** {{Product-specific visual thesis and one signature moment; do not use a generic style label alone.}}
+- **Analytics:** {{Consent model, event destination, retention, and experiment tooling}}
+- **SEO:** {{Public route/indexability strategy, locales, structured data}}
 
 ## 5. Data & Storage Invariants
 
@@ -55,6 +64,7 @@ the reasoning. Name this project's non-negotiable domain invariants explicitly:
 - **Core Web Vitals:** LCP < 2.5s, INP < 200ms, CLS < 0.1
 - **Availability Target:** 99.9% uptime
 - **Accessibility Bar:** WCAG 2.2 AA compliance
+- **Frontend Evidence Matrix:** 320, 375, 768, 1024, 1280, 1440px; landscape; light/dark; reduced motion; 200%/400% zoom
 
 ## 7. Phases & Milestones
 

@@ -31,6 +31,9 @@ Phase 5: Gate G4-A11Y compliance report, automated axe-core/Lighthouse accessibi
 - **Robust**:
   - Native HTML first: use semantic HTML elements (`<button>`, `<a>`, `<nav>`, `<main>`, `<dialog>`) before building custom div-based interactive widgets.
   - Proper ARIA live regions: announce asynchronous status changes (e.g. "Item added to cart", "Save failed") using `aria-live="polite"` or `role="alert"`.
+- **Evidence**:
+  - Test keyboard-only, at least one desktop screen reader, 200% and 400% zoom/reflow, forced colors/high contrast, reduced motion, and text-only/long-content states.
+  - Check sticky headers, cookie/consent UI, dialogs, validation summaries, and error recovery; no overlay may obscure focus.
 - **Internationalization (i18n) & RTL**:
   - Support right-to-left (RTL) reading directions using logical CSS properties (`margin-inline-start`, `padding-inline-end`) rather than hardcoded left/right.
 

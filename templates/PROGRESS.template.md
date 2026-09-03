@@ -47,6 +47,7 @@
 **Reviewer:** <agent-name>
 **Scope Reviewed:** <files or modules reviewed>
 **Automated Check Result:** <test suite / linter / security scan / axe-core output summary>
+**Evidence:** <workspace-relative report path(s), screenshot directory, or browser trace>
 **Findings Summary:**
   - Critical: 0 open
   - High: 0 open

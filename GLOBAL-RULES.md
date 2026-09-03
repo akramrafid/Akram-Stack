@@ -47,12 +47,34 @@ way an autonomous build corrupts itself.
 
 ## 4. Review-only roles never edit code
 
-`brand-guardian`, `senior-security-engineer` (in gate mode), `visual-qa`,
-and `code-reviewer` file findings as new tasks. They do not fix what they
+`brand-guardian`, `senior-security-engineer` (in gate mode),
+`senior-privacy-engineer` (G3-P), `visual-qa`, `growth-cro-engineer` (G4-CRO),
+`senior-performance-engineer`, and `code-reviewer` file findings as new tasks. They do not fix what they
 find — that keeps the review honest and keeps a fix from being rushed
 through by the same pass that's supposed to be catching it.
 
-## 5. Escalation, not guessing
+## 5. Privacy is structural
+
+PII is classified, minimized, retained on a schedule, and kept out of logs
+and model prompts unless `plan.md` explicitly allows it. Subject-rights
+export/erase is an API, not a spreadsheet. `senior-privacy-engineer` owns
+the design and Gate G3-P; every agent still enforces it.
+
+## 6. Frontend quality and commercial integrity
+
+Frontend work must have a specific visual thesis, a memorable but useful
+signature moment, a clear primary action, truthful value/price/proof, and a
+measurable path from acquisition to retained value. Never substitute generic
+SaaS composition or dark patterns for product understanding. Public routes must
+be indexable only when intended, technically correct, and meaningful without
+client JavaScript.
+
+Product/Web and Hybrid work also requires a measurement plan, technical SEO
+contract, responsive screen specs, and browser evidence before the frontend
+quality gates. A frontend that is attractive but unmeasured, undiscoverable,
+inaccessible, or slow is not production-ready.
+
+## 7. Escalation, not guessing
 
 Anything that would violate a Hard Rule, needs a credential or physical
 action, or is genuinely ambiguous in a costly-to-reverse way gets a HANDOFF

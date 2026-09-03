@@ -1,6 +1,6 @@
 # Phase 4 — Build Loop
 
-**Objective:** Implement all tasks generated in Phase 2 in dependency order through the deterministic build loop. This is where the product, APIs, UI, mobile experiences, and AI/ML pipelines are engineered.
+**Objective:** Implement all tasks generated in Phases 2–3 in dependency order through the deterministic build loop. This is where the product, APIs, UI, mobile experiences, measurement, SEO, and AI/ML pipelines are engineered.
 
 ## Active Agents by Track
 
@@ -11,6 +11,10 @@
 | `senior-frontend-engineer` | Components, pages, client state, Core Web Vitals | Standard |
 | `senior-integration-engineer` | Payment gateways, webhooks, third-party APIs, idempotency | Standard |
 | `senior-mobile-engineer` | Cross-platform mobile apps (React Native/Expo/Flutter/PWA) | Standard |
+| `design-system-engineer` | Token-driven primitives, component states, gallery and traceability | Standard |
+| `growth-cro-engineer` | Conversion hierarchy and ethical experiment implementation | Standard |
+| `product-analytics-engineer` | Consent-aware funnel instrumentation and event validation | Standard |
+| `technical-seo-engineer` | Metadata, sitemap, robots, structured data and public route implementation | Standard |
 
 ### AI/ML Track
 | Agent | Core Ownership | Tier |
@@ -53,6 +57,8 @@ python -m orchestrator.cli next --parallel
 ## Exit Criteria
 - Every `- [ ]` task in `ToDos.md` Phase 4 is marked `- [x]`.
 - Zero `- [!]` blocked tasks remaining.
+- `python -m orchestrator.cli frontend-check --area all` passes for Product/Web and Hybrid tracks.
+- Every P0 route has browser evidence for the approved viewport/state matrix.
 - All code committed with standard `<TASK-ID>: <title>` messages.
 
 ## Next Phase

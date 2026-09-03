@@ -13,7 +13,10 @@
 | `senior-sre-observability-engineer` | Telemetry architecture, golden signals, health check design | ★ Senior | Implement |
 | `senior-technical-writer` | OpenAPI 3.1 specifications, architecture docs, ADR catalog | Standard | Implement |
 | `senior-cloud-architect` | Infrastructure topology, cloud services, FinOps budget | Standard | Implement |
+| `senior-privacy-engineer` | Data classification, retention, subject rights, DPIA | ★ Senior | Implement |
 | `senior-ai-engineer` | AI system architecture, model orchestration (AI/ML & Hybrid) | ★ Senior | Implement |
+| `product-analytics-engineer` | Event transport, consent boundary, retention and experiment data model | Standard | Implement |
+| `technical-seo-engineer` | Rendering/indexability constraints and public route contract | Standard | Implement |
 
 `senior-system-architect` establishes the overall boundaries first. `senior-database-architect`, `senior-security-engineer`, and `senior-sre-observability-engineer` are ★ Senior roles — never delegate to a lower model tier.
 
@@ -29,6 +32,8 @@
 - OpenAPI 3.1 specifications in `docs/openapi.yaml`.
 - Initial ADRs in `docs/adr/`.
 - `agents/TEAM.md` §3 (File Ownership) calibrated to the selected stack.
+- Analytics event transport and consent boundaries aligned with privacy architecture.
+- Public rendering, canonical, sitemap, and structured-data constraints aligned with the frontend architecture.
 - Phase 3 and Phase 4 task lists generated in `ToDos.md`.
 
 ## Exit Criteria
