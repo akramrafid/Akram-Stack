@@ -8,7 +8,7 @@ Most AI-assisted builds fall apart because context scrolls away in an LLM conver
 - `plan.md` (what/why/domain hard rules/SLO budgets),
 - `ToDos.md` (the machine-parsable task ledger),
 - `PROGRESS.md` (the append-only journal),
-- `agents/` (42 role briefs, each with narrow responsibilities, explicit boundaries, and clean handoffs),
+- `.agents/` (42 role briefs in `.agents/agents/`, `.agents/TEAM.md`, plus skills and workflows),
 - `orchestrator/` & `bin/akstack` (zero-dependency programmatic CLI for topological sorting, conflict-free parallel wave scheduling, task transitions, and automated gating).
 
 Every work session — whether minutes later or three weeks later — orients from disk. This makes multi-week autonomous builds immune to context resets, model switches, and long operational gaps.
@@ -36,7 +36,7 @@ Every project runs the same 7 phases (0 through 6). The active agents in Phase 4
 |---|---|---|
 | **Product/Web** | SaaS, CRUD apps, web portals, dashboards, mobile apps | `senior-backend-engineer`, `senior-frontend-engineer`, `senior-integration-engineer`, `senior-mobile-engineer` |
 | **AI/ML** | Novel models, research pipelines, classical ML, LLM systems, vision/NLP | `senior-ai-research-engineer` (★), `senior-machine-learning-engineer`, `senior-deep-learning-engineer`, `senior-llm-engineer`, `senior-generative-ai-engineer`, `senior-nlp-engineer`, `senior-computer-vision-engineer`, `senior-data-engineer` |
-| **Hybrid** | Full-stack products with embedded AI/LLM features | Both groups, operating on isolated files via `agents/TEAM.md` file ownership boundaries |
+| **Hybrid** | Full-stack products with embedded AI/LLM features | Both groups, operating on isolated files via `.agents/TEAM.md` file ownership boundaries |
 
 ---
 
@@ -81,10 +81,10 @@ python -m orchestrator.cli graph --mermaid
 
 ## Complete Agent Roster (42 Roles)
 
-See `agents/TEAM.md` for full tiers, ownership boundaries, and operational rules. Full list of agent briefs:
+See `.agents/TEAM.md` for full tiers, ownership boundaries, and operational rules. Full list of agent briefs:
 
 ```
-agents/
+.agents/agents/
 ├── TEAM.md                              — roster, tiers, ownership, escalation
 ├── coordinator.md                       ★ orchestrate only (phases 0–6)
 ├── requirement-analyzer.md              ┐
@@ -149,8 +149,10 @@ akstack/
 │   ├── graph.py                 — DAG resolution, cycle check, parallel waves
 │   ├── models.py                — data models (Task, Gate, Plan)
 │   ├── parser.py                — markdown parser & state updater
-│   └── frontend.py              — framework-agnostic frontend contract checks
-├── .agents/skills/akstack/       — native Antigravity skill integration
+├── .agents/                     — 42 specialized role briefs, TEAM.md, skills & workflows
+│   ├── agents/                  — role briefs (coordinator, engineers, etc.)
+│   ├── skills/                  — Antigravity skills (akstack, ecc, etc.)
+│   └── workflows/               — workflow procedures
 ├── templates/
 │   ├── plan.template.md
 │   ├── ToDos.template.md
@@ -170,7 +172,6 @@ akstack/
 │   ├── frontend-quality-checklist.md
 │   ├── playwright.config.template.ts
 │   └── frontend-ci.template.yml
-├── agents/                      — 42 specialized role briefs + TEAM.md
 ├── phases/                      — 7 phase specifications
 ├── tests/                       — automated test suite for orchestrator
 └── integrations/

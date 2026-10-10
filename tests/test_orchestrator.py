@@ -208,7 +208,10 @@ class TestOrchestratorEngineIntegration(unittest.TestCase):
         self.test_dir = Path(tempfile.mkdtemp())
         self.repo_root = Path(__file__).resolve().parent.parent
         shutil.copytree(self.repo_root / "templates", self.test_dir / "templates")
-        shutil.copytree(self.repo_root / "agents", self.test_dir / "agents")
+        if (self.repo_root / ".agents").exists():
+            shutil.copytree(self.repo_root / ".agents", self.test_dir / ".agents")
+        if (self.repo_root / "agents").exists():
+            shutil.copytree(self.repo_root / "agents", self.test_dir / "agents")
         shutil.copytree(self.repo_root / "phases", self.test_dir / "phases")
 
     def tearDown(self):
@@ -269,7 +272,7 @@ class TestOrchestratorEngineIntegration(unittest.TestCase):
         engine = OrchestratorEngine(workspace_root=empty)
         ok, msg = engine.init_project("Copied", track="Hybrid")
         self.assertTrue(ok, msg)
-        self.assertTrue((empty / "agents" / "coordinator.md").exists())
+        self.assertTrue((empty / ".agents" / "agents" / "coordinator.md").exists() or (empty / "agents" / "coordinator.md").exists())
         self.assertTrue((empty / "phases" / "PHASE-3-DESIGN.md").exists())
         self.assertTrue((empty / "playwright.config.ts").exists())
         self.assertTrue((empty / ".github" / "workflows" / "frontend-quality.yml").exists())
@@ -611,12 +614,30 @@ class TestOrchestratorEngineIntegration(unittest.TestCase):
         self.assertLess(GATE_ORDER.index("G4"), GATE_ORDER.index("G4-CRO"))
 
     def test_agent_roster_count(self):
-        briefs = [p for p in (self.repo_root / "agents").glob("*.md") if p.name != "TEAM.md"]
-        self.assertEqual(len(briefs), 42)
-        for brief in briefs:
+        agents_dir = (self.repo_root / ".agents" / "agents") if (self.repo_root / ".agents" / "agents").exists() else (self.repo_root / "agents")
+        required_briefs = [
+            "brand-guardian", "code-reviewer", "content-designer", "coordinator",
+            "design-researcher", "design-system-engineer", "growth-cro-engineer",
+            "pinterest-researcher", "product-analytics-engineer", "requirement-analyzer",
+            "senior-accessibility-engineer", "senior-ai-engineer", "senior-ai-research-engineer",
+            "senior-backend-engineer", "senior-cloud-architect", "senior-computer-vision-engineer",
+            "senior-data-engineer", "senior-database-architect", "senior-deep-learning-engineer",
+            "senior-devops-engineer", "senior-frontend-engineer", "senior-generative-ai-engineer",
+            "senior-integration-engineer", "senior-llm-engineer", "senior-machine-learning-engineer",
+            "senior-mlops-engineer", "senior-mobile-engineer", "senior-nlp-engineer",
+            "senior-performance-engineer", "senior-privacy-engineer", "senior-product-designer",
+            "senior-product-manager", "senior-qa-architect", "senior-security-engineer",
+            "senior-sre-observability-engineer", "senior-system-architect", "senior-system-designer",
+            "senior-technical-writer", "technical-seo-engineer", "ui-designer",
+            "ux-researcher", "visual-qa"
+        ]
+        self.assertEqual(len(required_briefs), 42)
+        for name in required_briefs:
+            brief = agents_dir / f"{name}.md"
+            self.assertTrue(brief.exists(), f"Missing agent brief: {name}.md")
             text = brief.read_text(encoding="utf-8")
             self.assertTrue(text.startswith("---"), brief.name)
-            self.assertIn(f"name: {brief.stem}", text)
+            self.assertIn(f"name: {name}", text)
 
 
 if __name__ == "__main__":

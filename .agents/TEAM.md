@@ -47,7 +47,7 @@
 | `senior-mlops-engineer` | 5 Gate (G0-ML) + 6 | AI/ML | Standard | Implement |
 | `senior-devops-engineer` | 6 Launch | Shared | Standard | Implement |
 
-Full role briefs: `agents/<agent-name>.md`.
+Full role briefs: `.agents/agents/<agent-name>.md`.
 
 ---
 
@@ -127,7 +127,7 @@ plan.md, ToDos.md, PROGRESS.md, STOP → coordinator / orchestrator CLI only
 
 ## §6. Skills & Tooling Integration Across Roles
 
-Each role brief in `agents/` is designed to leverage domain-specific skills and industry standards:
+Each role brief in `.agents/agents/` is designed to leverage domain-specific skills and industry standards:
 
 - **Frontend & UI/UX:** `senior-frontend-engineer`, `design-system-engineer`, `senior-product-designer`, `ui-designer`, `visual-qa` leverage design tokens, layout hierarchy, motion principles, and responsive engineering (`designer-skills`, `emilkowalski-skills`, `jakubkrehel-skills`, `mengto-skills`).
 - **Growth, SEO & Analytics:** `growth-cro-engineer`, `technical-seo-engineer`, `product-analytics-engineer` leverage conversion rate optimization, structured data schemas, and analytics measurement frameworks (`marketingskills`, `ai-seo`, `schema`, `cro`).

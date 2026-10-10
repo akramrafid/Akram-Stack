@@ -31,7 +31,7 @@
 - Concrete schema definitions and initial migration scripts in `db/` or `prisma/`.
 - OpenAPI 3.1 specifications in `docs/openapi.yaml`.
 - Initial ADRs in `docs/adr/`.
-- `agents/TEAM.md` §3 (File Ownership) calibrated to the selected stack.
+- `.agents/TEAM.md` §3 (File Ownership) calibrated to the selected stack.
 - Analytics event transport and consent boundaries aligned with privacy architecture.
 - Public rendering, canonical, sitemap, and structured-data constraints aligned with the frontend architecture.
 - Phase 3 and Phase 4 task lists generated in `ToDos.md`.

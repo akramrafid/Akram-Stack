@@ -27,7 +27,7 @@ python -m orchestrator.cli status --json
 python -m orchestrator.cli next
 python -m orchestrator.cli packet              # full agent packet for the next task
 python -m orchestrator.cli start <task-id>
-# implement strictly within Files:; read agents/<owner>.md first
+# implement strictly within Files:; read .agents/agents/<owner>.md first
 python -m orchestrator.cli complete <task-id>
 ```
 

@@ -1,6 +1,6 @@
 # Global Rules
 
-Every agent in `agents/` inherits these without being told twice. They're
+Every agent in `.agents/agents/` inherits these without being told twice. They're
 listed here once so a fresh clone on a machine that hasn't set up the global
 tooling yet still carries the reasoning, not just the mechanism.
 

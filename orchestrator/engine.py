@@ -32,11 +32,27 @@ class OrchestratorEngine:
         self.todos_file = self.workspace_root / "ToDos.md"
         self.plan_file = self.workspace_root / "plan.md"
         self.progress_file = self.workspace_root / "PROGRESS.md"
-        self.agents_dir = self._asset_path("agents")
+        self.agents_dir = self._find_agents_dir()
         self.phases_dir = self._asset_path("phases")
         self.templates_dir = self._asset_path("templates")
         self.stop_file = self.workspace_root / "STOP"
         self.lock_file = self.workspace_root / ".akstack.lock"
+
+    def _find_agents_dir(self) -> Path:
+        for candidate in (
+            self.workspace_root / ".agents" / "agents",
+            self.workspace_root / ".agents",
+            self.workspace_root / "agents",
+            self.asset_root / ".agents" / "agents",
+            self.asset_root / ".agents",
+            self.asset_root / "agents",
+        ):
+            if candidate.exists() and (candidate / "coordinator.md").exists():
+                return candidate
+        candidate = self.workspace_root / ".agents" / "agents"
+        if candidate.exists():
+            return candidate
+        return self.asset_root / ".agents" / "agents"
 
     def _asset_path(self, name: str) -> Path:
         workspace_path = self.workspace_root / name
@@ -427,6 +443,12 @@ class OrchestratorEngine:
         """Machine-readable execution packet for an agent assigned to a task."""
         plan = self.load_plan()
         brief = self.agents_dir / f"{task.owner}.md"
+        team_doc = ".agents/TEAM.md" if (self.workspace_root / ".agents" / "TEAM.md").exists() else (
+            ".agents/agents/TEAM.md" if (self.workspace_root / ".agents" / "agents" / "TEAM.md").exists() else "agents/TEAM.md"
+        )
+        owner_doc = f".agents/agents/{task.owner}.md" if (self.workspace_root / ".agents" / "agents" / f"{task.owner}.md").exists() else (
+            f"agents/{task.owner}.md" if task.owner else ""
+        )
         return {
             "task_id": task.id,
             "title": task.title,
@@ -446,9 +468,9 @@ class OrchestratorEngine:
                 "plan.md",
                 "ToDos.md",
                 "PROGRESS.md",
-                "agents/TEAM.md",
+                team_doc,
                 "GLOBAL-RULES.md",
-                f"agents/{task.owner}.md" if task.owner else "",
+                owner_doc,
             ],
             "hard_rules": plan.hard_rules if plan else [],
             "track": plan.track if plan else Track.PRODUCT_WEB.value,
@@ -979,7 +1001,7 @@ class OrchestratorEngine:
                     continue
                 if owner in SPECIAL_OWNERS or owner in agent_files:
                     continue
-                errors.append(f"Task {task.id} references undefined agent owner: '{owner}' (no agents/{owner}.md)")
+                errors.append(f"Task {task.id} references undefined agent owner: '{owner}' (no agent brief for '{owner}')")
 
             for agent_file in self.agents_dir.glob("*.md"):
                 if agent_file.name == "TEAM.md":
@@ -1005,7 +1027,7 @@ class OrchestratorEngine:
             }
             missing = sorted(required - agent_files)
             for name in missing:
-                errors.append(f"Required agent brief missing: agents/{name}.md")
+                errors.append(f"Required agent brief missing: {name}.md")
 
         if self.phases_dir.exists():
             for n in range(0, 7):
@@ -1094,12 +1116,12 @@ class OrchestratorEngine:
 
     def _seed_project_assets(self) -> None:
         """Copy framework assets into a project created from an installed CLI."""
-        for name in ("agents", "phases"):
+        for name in (".agents", "phases"):
             source = self.asset_root / name
             target = self.workspace_root / name
             if source.exists() and not target.exists():
                 shutil.copytree(source, target)
-        self.agents_dir = self.workspace_root / "agents" if (self.workspace_root / "agents").exists() else self.agents_dir
+        self.agents_dir = self._find_agents_dir()
         self.phases_dir = self.workspace_root / "phases" if (self.workspace_root / "phases").exists() else self.phases_dir
 
     def _seed_supporting_docs(self) -> None:

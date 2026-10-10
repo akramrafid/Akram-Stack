@@ -29,7 +29,7 @@
 | `senior-data-engineer` | Data ingestion pipelines, feature stores, data cleaning | Standard |
 
 ### Hybrid Track
-Both tables apply. Agents operate on strictly isolated files defined in `agents/TEAM.md` §3 File Ownership.
+Both tables apply. Agents operate on strictly isolated files defined in `.agents/TEAM.md` §3 File Ownership.
 
 ## Execution via Orchestrator CLI
 
@@ -43,7 +43,7 @@ python -m orchestrator.cli next
 python -m orchestrator.cli start <task-id>
 
 # 3. Implement strictly within declared Files: boundary.
-# Read agents/<owner>.md before editing code.
+# Read .agents/agents/<owner>.md before editing code.
 
 # 4. Complete task (runs Verify command, appends to PROGRESS.md, commits to git)
 python -m orchestrator.cli complete <task-id>

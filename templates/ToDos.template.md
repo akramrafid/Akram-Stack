@@ -4,15 +4,15 @@
 
 Read in full before every work session — no assumed memory of any prior session. `PROGRESS.md` is the only continuity. Use the `akstack` CLI (`python -m orchestrator.cli`) for deterministic task management.
 
-1. **Orient**: Run `akstack status` or read `plan.md`, this file, `agents/TEAM.md`, `PROGRESS.md` (newest entries first).
+1. **Orient**: Run `akstack status` or read `plan.md`, this file, `.agents/TEAM.md`, `PROGRESS.md` (newest entries first).
 2. **Select**: Run `akstack next` (or `akstack packet` for a machine-readable execution packet).
 3. **🧑 HUMAN Task**: If blocked on a person, run `akstack handoff <id> --blocked-on "..." --why "..."`, which writes PROGRESS.md and creates `STOP`. After an explicit decision, run `akstack approve <id> --notes "..." --evidence <report>`.
 4. **Gate Task (`-G`)**: Follow `phases/PHASE-5-QUALITY-SECURITY.md`. File findings with `akstack finding`. Never self-fix in review-only gates. Every gate needs a report file passed to `akstack gate --evidence`.
 5. **Implement**:
    - Run `akstack start <task-id>` (marks `- [~]`).
-   - Read `agents/<owner>.md` before editing.
+   - Read `.agents/agents/<owner>.md` before editing.
    - Touch ONLY the paths specified in `Files:`.
-   - Adhere to Hard Rules in `plan.md` §3 and standing rules in `agents/TEAM.md` §4.
+   - Adhere to Hard Rules in `plan.md` §3 and standing rules in `.agents/TEAM.md` §4.
 6. **Verify**: Run `Verify:` command. Must exit 0.
 7. **Complete**: Run `akstack complete <task-id>` (verify, journal, commit).
 8. **Failure**: Up to 3 retries. Then `akstack fail <task-id> --error "<diagnosis>"`. Reset with `akstack reset <task-id>` after the fix.
@@ -32,7 +32,7 @@ Read in full before every work session — no assumed memory of any prior sessio
 
 ```markdown
 - [ ] **P<N>-T<NNN>** {{★ if architect-tier}} <title>
-  - **Owner:** <agent from agents/TEAM.md>
+  - **Owner:** <agent from .agents/TEAM.md>
   - **Deps:** <comma-separated task IDs, or —>
   - **Files:** <comma-separated exact paths>
   - **Do:** <specific instruction>
@@ -44,7 +44,7 @@ Small tasks beat large ones — if `Do:` requires more than a short paragraph, s
 
 ### §0.3 ★ Senior Tasks
 
-Schema, core domain logic implementing a Hard Rule, security/auth internals, architectural topology, novel algorithm validation, and privacy threat models are ★ Senior. They MUST execute on the flagship model tier. See `agents/TEAM.md` §2.
+Schema, core domain logic implementing a Hard Rule, security/auth internals, architectural topology, novel algorithm validation, and privacy threat models are ★ Senior. They MUST execute on the flagship model tier. See `.agents/TEAM.md` §2.
 
 ### §0.4 Gate Sequence (Phase 5 Quality & Security)
 

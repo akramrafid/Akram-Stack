@@ -16,8 +16,8 @@
   ```bash
   python -m orchestrator.cli init "My Project" --track Product/Web
   ```
-- [ ] `agents/` present in root (all 42 role briefs + `TEAM.md`)
-- [ ] Coordinator brief present: `agents/coordinator.md`
+- [ ] `.agents/` present in root (all 42 role briefs in `.agents/agents/` + `.agents/TEAM.md`)
+- [ ] Coordinator brief present: `.agents/agents/coordinator.md`
 - [ ] Browser evidence kit copied: `playwright.config.ts`, `docs/qa/frontend-quality-checklist.md`
 - [ ] Frontend CI workflow present for Product/Web and Hybrid: `.github/workflows/frontend-quality.yml`
 
@@ -25,7 +25,7 @@ See `integrations/EXTERNAL-TOOLS.md` for exact tool install and verification com
 
 ## Exit Criteria
 
-`plan.md`, `ToDos.md`, `PROGRESS.md` exist. `agents/` directory is present and `python -m orchestrator.cli lint` passes with 0 errors. No product-specific feature code is written yet.
+`plan.md`, `ToDos.md`, `PROGRESS.md` exist. `.agents/` directory is present and `python -m orchestrator.cli lint` passes with 0 errors. No product-specific feature code is written yet.
 
 ## Next Phase
 

@@ -15,7 +15,7 @@ Python ≥ 3.10. Zero third-party dependencies.
 ## Layout
 
 - `orchestrator/` — CLI engine (parser, DAG, gates, packets)
-- `agents/` — 42 role briefs + `TEAM.md`
+- `.agents/agents/` — role briefs + `.agents/TEAM.md`
 - `phases/` — Phase 0–6 specs
 - `templates/` — plan / ToDos / PROGRESS / ADR / design-system / screen specs / measurement / SEO / QA
 - `tests/` — orchestrator unit tests (must stay green)

@@ -17,7 +17,7 @@ python -m orchestrator.cli init "{{PROJECT_NAME}}" --track Product/Web
 Agent Prompt:
 ```
 You are bootstrapping a new project with akstack. The files in this repo:
-plan.md, ToDos.md, agents/TEAM.md, agents/<role>.md, PROGRESS.md.
+plan.md, ToDos.md, .agents/TEAM.md, .agents/agents/<role>.md, PROGRESS.md.
 
 Here is the product requirement in the person's own words:
 "<PASTE THE PRODUCT REQUIREMENT HERE>"
@@ -41,7 +41,7 @@ senior-product-manager.md first, then work through the template:
   ambiguity by silently picking the likely interpretation when it would be
   expensive to reverse.
 
-STEP 3 — Fill agents/TEAM.md §3 File Ownership for the actual chosen stack.
+STEP 3 — Fill .agents/TEAM.md §3 File Ownership for the actual chosen stack.
 
 STEP 4 — Generate ToDos.md Phase 1 tasks only (per phases/PHASE-1-DISCOVERY.md),
 including the funnel/CRO, analytics, and technical SEO tasks for Product/Web
@@ -79,13 +79,13 @@ You are one iteration of the akstack build loop for {{PROJECT_NAME}}. You
 have no memory of previous iterations. The repository is your only state.
 
 STEP 1 — Orient. Run `python -m orchestrator.cli status` and read plan.md,
-ToDos.md, agents/TEAM.md, PROGRESS.md (newest entries first).
+ToDos.md, .agents/TEAM.md, PROGRESS.md (newest entries first).
 
 STEP 2 — Select. Run `python -m orchestrator.cli next` to pick exactly one task.
 
 STEP 3 — Build. Run `python -m orchestrator.cli start <task-id>`. Read the
-role brief in agents/<owner>.md for the task's Owner before writing anything.
-Touch only its Files: list. Apply every rule in agents/TEAM.md §4 and
+role brief in .agents/agents/<owner>.md for the task's Owner before writing anything.
+Touch only its Files: list. Apply every rule in .agents/TEAM.md §4 and
 GLOBAL-RULES.md without exception.
 
 STEP 4 — Verify, record, complete. Run the task's Verify command. If the task
@@ -147,7 +147,7 @@ frontend gates; AI/ML without a user-facing frontend may omit them.
 
 ```
 You are senior-mlops-engineer for {{PROJECT_NAME}}. Read
-agents/senior-mlops-engineer.md and plan.md §3, §5.
+.agents/agents/senior-mlops-engineer.md and plan.md §3, §5.
 
 For every model artifact produced in Phase {{N}}: confirm it traces to a
 versioned dataset and logged hyperparameters, and that its evaluation
@@ -163,7 +163,7 @@ reproducible, and above threshold.
 
 ```
 You are senior-qa-architect for {{PROJECT_NAME}}. Read
-agents/senior-qa-architect.md.
+.agents/agents/senior-qa-architect.md.
 
 Phase {{N}} is code-complete. Write and run the tests that prove it.
 Prioritize plan.md §3 Hard Rules first — that's where this project loses
@@ -181,8 +181,8 @@ python -m orchestrator.cli gate P{{N}}-G1 --evidence docs/qa/test-report.md
 ### 4.2 Code Review gate (G2)
 
 ```
-You are code-reviewer for {{PROJECT_NAME}}. Read agents/code-reviewer.md,
-agents/TEAM.md §3-4, and plan.md §3.
+You are code-reviewer for {{PROJECT_NAME}}. Read .agents/agents/code-reviewer.md,
+.agents/TEAM.md §3-4, and plan.md §3.
 
 Review all code added in Phase {{N}} for production-grade quality: edge
 cases beyond the happy path, error handling, maintainability, file-ownership
@@ -206,7 +206,7 @@ format. Leave the gate unchecked until none remain open.
 
 ```
 You are senior-privacy-engineer (gate mode) for {{PROJECT_NAME}}. Read
-agents/senior-privacy-engineer.md and plan.md §3.
+.agents/agents/senior-privacy-engineer.md and plan.md §3.
 
 Review all code added in Phase {{N}} for data minimization, purpose
 limitation, PII in logs/prompts, retention, and subject-rights coverage.
@@ -224,7 +224,7 @@ python -m orchestrator.cli gate P{{N}}-G3-P --evidence docs/qa/privacy-report.md
 
 ```
 You are senior-security-engineer (gate mode) for {{PROJECT_NAME}}. Read
-agents/senior-security-engineer.md and plan.md §3.
+.agents/agents/senior-security-engineer.md and plan.md §3.
 
 Review all code added in Phase {{N}} against OWASP Top 10 + ASVS plus this
 project's Hard Rules. You are REVIEW-ONLY.
@@ -243,7 +243,7 @@ python -m orchestrator.cli gate P{{N}}-G3 --evidence docs/qa/security-report.md
 ```
 Run visual-qa and brand-guardian together on what was actually built in
 Phase {{N}} — not the design spec, the real shipped UI. Read
-agents/visual-qa.md and agents/brand-guardian.md.
+.agents/agents/visual-qa.md and .agents/agents/brand-guardian.md.
 
 Check every target breakpoint from plan.md. Check against
 design-system/MASTER.md for drift. If Impeccable is installed, run its
@@ -259,8 +259,8 @@ python -m orchestrator.cli gate P{{N}}-G4 --evidence docs/qa/visual-report.md
 
 ```
 You are growth-cro-engineer with product-analytics-engineer for
-{{PROJECT_NAME}}. Read agents/growth-cro-engineer.md,
-agents/product-analytics-engineer.md, agents/technical-seo-engineer.md,
+{{PROJECT_NAME}}. Read .agents/agents/growth-cro-engineer.md,
+.agents/agents/product-analytics-engineer.md, .agents/agents/technical-seo-engineer.md,
 docs/discovery/funnel.md, docs/analytics/measurement-plan.md, and
 docs/seo/technical-seo.md.
 
@@ -280,7 +280,7 @@ python -m orchestrator.cli gate P{{N}}-G4-CRO --evidence docs/analytics/cro-repo
 
 ```
 You are senior-accessibility-engineer for {{PROJECT_NAME}}. Read
-agents/senior-accessibility-engineer.md.
+.agents/agents/senior-accessibility-engineer.md.
 
 Audit all screens and components added in Phase {{N}} against WCAG 2.2 AA:
 - Keyboard navigation (focus visible, no focus traps, tab order).
@@ -297,7 +297,7 @@ python -m orchestrator.cli gate P{{N}}-G4-A11Y --evidence docs/qa/accessibility-
 
 ```
 You are senior-performance-engineer for {{PROJECT_NAME}}. Read
-agents/senior-performance-engineer.md.
+.agents/agents/senior-performance-engineer.md.
 
 Measure Core Web Vitals and API latency against plan.md's budget (or defaults:
 LCP < 2.5s, INP < 200ms, CLS < 0.1, API P95 < 300ms). Trace any miss to its
